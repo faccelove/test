@@ -4,7 +4,6 @@
       "sku": "DPCD2-CC305002",
       "name": "Black Mascara",
       "values": [
-        1029,
         919,
         948,
         2226,
@@ -33,6 +32,7 @@
         0,
         0,
         0,
+        0,
         0
       ]
     },
@@ -40,7 +40,6 @@
       "sku": "DPCD2-CC305001",
       "name": "Brown Mascara",
       "values": [
-        49,
         74,
         52,
         217,
@@ -69,6 +68,7 @@
         0,
         0,
         0,
+        0,
         0
       ]
     },
@@ -76,7 +76,6 @@
       "sku": "FL-ELGS-01",
       "name": "Eyelash Growth Serum",
       "values": [
-        125,
         56,
         268,
         635,
@@ -105,6 +104,7 @@
         0,
         0,
         0,
+        0,
         0
       ]
     },
@@ -112,7 +112,6 @@
       "sku": "FL-CCFS-01",
       "name": "Foundation Stick",
       "values": [
-        1788,
         1900,
         2450,
         6281,
@@ -141,23 +140,12 @@
         0,
         0,
         0,
+        0,
         0
       ]
     }
   ],
   "inProduction": [
-    {
-      "id": "po_ghri4zfdjyy34",
-      "poNumber": "PO 07",
-      "supplier": "test",
-      "productionStart": "",
-      "promiseDate": "",
-      "actualProductionEndDate": "",
-      "productionStatus": "ontrack",
-      "currency": "USD",
-      "remarks": "",
-      "lineItems": []
-    },
     {
       "id": "po_o8cyvy4fkolkf",
       "poNumber": "PO 01",
@@ -737,7 +725,7 @@
   "products": {
     "FL-ELMC-BR": {
       "name": "Iron Mascara (Black)",
-      "readyStock": 0,
+      "readyStock": 50688,
       "email": ""
     },
     "FL-ELMC-BL": {
@@ -807,7 +795,7 @@
       ]
     }
   ],
-  "salesAnchorDate": "2026-05-14",
+  "salesAnchorDate": "2026-05-13",
   "salesViewDays": 3,
   "documents": [
     {
