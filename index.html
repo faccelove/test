@@ -412,6 +412,133 @@
 
   /* ============ SALES TABLE ============ */
   .sales-table { font-size: 12px; }
+
+  /* ============ Sales Spike Alert ============ */
+  .spike-alert {
+    background: linear-gradient(135deg, #FFF7E6 0%, #FFFCF5 100%);
+    border: 1.5px solid var(--status-reorder);
+    border-radius: var(--radius);
+    margin-bottom: 18px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(184,150,106,0.12);
+  }
+  .spike-alert-summary {
+    display: flex; align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    cursor: pointer;
+    list-style: none;
+  }
+  .spike-alert-summary::-webkit-details-marker { display: none; }
+  .spike-alert-summary:hover { background: rgba(184,150,106,0.06); }
+  .spike-alert-icon { font-size: 22px; line-height: 1; }
+  .spike-alert-title {
+    flex: 1;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--status-reorder);
+  }
+  .spike-alert-count {
+    background: var(--status-reorder);
+    color: var(--white);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 999px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .spike-alert-arrow {
+    font-size: 13px; color: var(--status-reorder);
+    transition: transform 0.2s ease;
+  }
+  .spike-alert[open] .spike-alert-arrow { transform: rotate(180deg); }
+  .spike-alert-body {
+    padding: 8px 18px 16px;
+    border-top: 1px dashed rgba(184,150,106,0.4);
+    background: rgba(255,255,255,0.55);
+  }
+  .spike-help {
+    font-size: 11px;
+    color: var(--ink-mute);
+    font-style: italic;
+    line-height: 1.5;
+    margin: 10px 0 12px;
+  }
+  .spike-row {
+    padding: 11px 0;
+    border-bottom: 1px solid rgba(184,150,106,0.18);
+  }
+  .spike-row:last-child { border-bottom: none; }
+  .spike-row-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+    flex-wrap: wrap;
+  }
+  .spike-product {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: 0.01em;
+  }
+  .spike-mult-pill {
+    background: var(--status-reorder);
+    color: var(--white);
+    font-size: 10.5px;
+    font-weight: 800;
+    padding: 4px 11px;
+    border-radius: 999px;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+    text-transform: uppercase;
+    box-shadow: 0 1px 3px rgba(184,150,106,0.3);
+  }
+  .spike-row-critical .spike-mult-pill {
+    background: var(--status-critical, #B85A6A);
+    box-shadow: 0 1px 3px rgba(184,90,106,0.4);
+  }
+  .spike-row-critical .spike-product {
+    color: var(--status-critical, #B85A6A);
+  }
+  .spike-row-body {
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    font-variant-numeric: tabular-nums;
+    line-height: 1.5;
+  }
+  .spike-row-body strong {
+    color: var(--ink);
+    font-weight: 700;
+  }
+  .spike-baseline {
+    color: var(--ink-mute);
+    font-style: italic;
+    font-size: 10.5px;
+  }
+  /* In-cell spike badge — overlays top-right corner of the day cell */
+  .sales-table td.spike-cell {
+    position: relative;
+    background: rgba(184,150,106,0.08);
+  }
+  .sales-table td.spike-cell .sales-edit {
+    border-color: rgba(184,150,106,0.35);
+  }
+  .spike-badge {
+    position: absolute;
+    top: 4px; right: 6px;
+    font-size: 12px;
+    line-height: 1;
+    pointer-events: none;
+    text-shadow: 0 0 4px rgba(255,247,230,0.9);
+    z-index: 1;
+  }
   .sales-table th { padding: 12px 8px; }
   .sales-table thead th.date-col {
     font-size: 10px;
@@ -458,55 +585,209 @@
   /* ============ DAYS OF COVER (two-line block) ============ */
   .doc-block {
     display: flex; flex-direction: column;
-    gap: 2px;
+    gap: 3px;
     text-align: left;
-    line-height: 1.3;
+    line-height: 1.35;
   }
   .doc-line {
-    display: flex; align-items: baseline; gap: 6px;
+    display: flex; align-items: baseline; gap: 7px;
     white-space: nowrap;
   }
   .doc-line .doc-label {
-    font-size: 9px; font-weight: 700;
+    font-size: 10.5px; font-weight: 700;
     letter-spacing: 0.10em; text-transform: uppercase;
     color: var(--ink-mute);
     flex-shrink: 0;
   }
   .doc-line .doc-value {
-    font-size: 12px; font-weight: 700;
+    font-size: 14px; font-weight: 700;
     color: var(--ink);
     font-variant-numeric: tabular-nums;
   }
   .doc-line.doc-line-prod .doc-value { color: var(--lavender-deep); }
   .doc-next-delivery {
-    font-size: 9.5px;
+    font-size: 11px;
     color: var(--ink-mute);
     letter-spacing: 0.04em;
     font-style: italic;
-    margin-top: 1px;
+    margin-top: 2px;
   }
-  .doc-deliveries {
-    display: flex; flex-direction: column;
-    gap: 1px;
-    margin-top: 3px;
-    padding-top: 3px;
-    border-top: 1px dashed var(--line);
+  .doc-breakdown {
+    margin-top: 4px;
+    padding-top: 0;
+    width: 100%;
   }
-  .doc-delivery-row {
-    font-size: 9.5px;
-    color: var(--ink-mute);
-    letter-spacing: 0.02em;
-    line-height: 1.35;
-    white-space: nowrap;
-  }
-  .doc-delivery-row strong {
-    color: var(--ink-soft);
+  .doc-breakdown-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin: 0 auto;
+    font-size: 8.5px;
     font-weight: 700;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--white);
+    background: #5D4868;
+    padding: 4px 10px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    list-style: none;
+    text-align: center;
+    line-height: 1.3;
+    box-shadow: 0 1px 3px rgba(93,72,104,0.25);
+    transition: background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+    max-width: 100%;
+  }
+  .doc-breakdown-toggle::-webkit-details-marker { display: none; }
+  .doc-breakdown-toggle:hover {
+    background: #432F4F;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 7px rgba(93,72,104,0.32);
+  }
+  .doc-breakdown-toggle .dbt-arrow {
+    display: inline-block;
+    font-size: 9px;
+    transition: transform 0.18s ease;
+  }
+  .doc-breakdown[open] .doc-breakdown-toggle .dbt-arrow { transform: rotate(180deg); }
+  .doc-breakdown[open] .doc-breakdown-toggle .dbt-show { display: none; }
+  .doc-breakdown .doc-breakdown-toggle .dbt-hide { display: none; }
+  .doc-breakdown[open] .doc-breakdown-toggle .dbt-hide { display: inline; }
+
+  .doc-breakdown-summary-wrap { text-align: center; }
+  .doc-breakdown-content {
+    margin-top: 8px;
+    padding: 10px 8px;
+    background: var(--lavender-faint);
+    border-radius: var(--radius);
+    display: flex; flex-direction: column;
+    gap: 6px;
+  }
+  .doc-breakdown-row {
+    font-size: 11px;
+    color: var(--ink-soft);
+    line-height: 1.45;
+    text-align: left;
     font-variant-numeric: tabular-nums;
+  }
+  .doc-breakdown-row .dbr-days {
+    font-weight: 800;
+    color: var(--lavender-deep);
+  }
+  .doc-breakdown-row .dbr-rel {
+    color: var(--ink-mute);
+    font-weight: 500;
+    font-size: 9.5px;
+  }
+  .doc-breakdown-row.dbr-warn .dbr-days {
+    color: var(--status-reorder);
+  }
+  .doc-breakdown-row.dbr-warn::before {
+    content: '⚠ ';
+    color: var(--status-reorder);
   }
   /* Make the dashboard / sales tables centre the doc-block contents */
   .dashboard-table .doc-block, .sales-table .doc-block {
     align-items: center; text-align: center;
+  }
+
+  /* ===== Sortable table headers ===== */
+  table.sortable-table th {
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    transition: background 0.12s ease, color 0.12s ease;
+  }
+  table.sortable-table th:hover {
+    background: var(--lavender-pale);
+    color: var(--ink);
+  }
+  table.sortable-table th.no-sort {
+    cursor: default;
+  }
+  table.sortable-table th.no-sort:hover { background: inherit; color: inherit; }
+  table.sortable-table th::after {
+    content: '⇅';
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 11px;
+    opacity: 0.32;
+    color: var(--lavender-deep);
+    transition: opacity 0.15s ease, color 0.15s ease;
+    font-weight: 700;
+  }
+  table.sortable-table th.no-sort::after { display: none; }
+  table.sortable-table th:hover::after { opacity: 0.7; }
+  table.sortable-table th.is-sorted-asc::after,
+  table.sortable-table th.is-sorted-desc::after {
+    opacity: 1;
+    color: var(--lavender-deep);
+  }
+  table.sortable-table th.is-sorted-asc::after  { content: '▲'; font-size: 9px; }
+  table.sortable-table th.is-sorted-desc::after { content: '▼'; font-size: 9px; }
+
+  /* ===== Grouped product rows (Analytics Dashboard) ===== */
+  .group-parent-row {
+    cursor: pointer;
+    background: var(--lavender-faint);
+    transition: background 0.18s ease;
+  }
+  .group-parent-row:hover { background: var(--lavender-pale); }
+  .group-parent-row.expanded { background: var(--lavender-pale); }
+  .group-parent-row .product-cell { padding-top: 12px; padding-bottom: 12px; }
+  .group-parent-name {
+    display: flex; align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .group-parent-row .group-chevron {
+    display: inline-block;
+    transition: transform 0.18s ease;
+    color: var(--lavender-deep);
+    font-size: 11px;
+  }
+  .group-parent-row.expanded .group-chevron { transform: rotate(90deg); }
+  .group-shade-count {
+    background: var(--lavender-deep);
+    color: var(--white);
+    font-size: 9.5px;
+    font-weight: 800;
+    padding: 2px 9px;
+    border-radius: 999px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .group-cta {
+    font-size: 10px;
+    color: var(--lavender-deep);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 5px;
+    margin-left: 22px;
+  }
+  .group-parent-row .group-sub {
+    font-size: 9.5px;
+    color: var(--ink-mute);
+    font-style: italic;
+    margin-top: 1px;
+    letter-spacing: 0.02em;
+  }
+  .group-child-row td {
+    background: var(--lavender-faint);
+    font-size: 12px;
+  }
+  .group-child-row .product-cell {
+    padding-left: 28px;
+    font-size: 12.5px;
+  }
+  .child-arrow {
+    color: var(--lavender-deep);
+    font-weight: 700;
+    margin-right: 4px;
   }
   .dashboard-table .doc-block .doc-line, .sales-table .doc-block .doc-line {
     justify-content: center;
@@ -1013,25 +1294,41 @@
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    background: none;
-    border: none;
+    background: var(--lavender-pale);
+    border: 1.5px solid var(--lavender-deep);
     font-family: inherit;
     font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.18em;
+    font-weight: 800;
+    letter-spacing: 0.10em;
     text-transform: uppercase;
-    color: var(--ink-soft);
+    color: var(--lavender-deep);
     cursor: pointer;
-    padding: 6px 4px;
+    padding: 8px 16px;
+    border-radius: var(--radius);
+    transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+    box-shadow: 0 1px 3px rgba(177,159,193,0.18);
   }
-  .footer-toggle:hover { color: var(--ink); }
+  .footer-toggle:hover {
+    background: var(--lavender-deep);
+    color: var(--white);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(177,159,193,0.32);
+  }
+  .footer-toggle:hover .chevron { color: var(--white); }
   .footer-toggle .chevron {
     display: inline-block;
     transition: transform 0.18s ease;
     color: var(--lavender-deep);
     font-size: 13px;
   }
-  .footer-toggle.expanded .chevron { transform: rotate(90deg); }
+  .footer-toggle.expanded { background: var(--lavender-deep); color: var(--white); }
+  .footer-toggle.expanded .chevron { transform: rotate(90deg); color: var(--white); }
+  .footer-toggle .toggle-cta {
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    color: inherit;
+    opacity: 0.85;
+  }
   .progress-pill {
     display: inline-flex;
     align-items: center;
@@ -1253,6 +1550,123 @@
   .row-delete svg { width: 13px; height: 13px; }
   .row-delete:disabled { opacity: 0.35; cursor: not-allowed; }
 
+  /* Dashboard edit-mode row delete (hide-from-dashboard) */
+  .dashboard-row-delete-cell { width: 48px; text-align: center; }
+  .dashboard-row-delete {
+    background: none;
+    border: 1px solid transparent;
+    color: var(--ink-mute);
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+    transition: all 0.15s ease;
+  }
+  .dashboard-row-delete:hover {
+    color: var(--status-critical);
+    border-color: var(--status-critical);
+    background: var(--status-critical-bg);
+  }
+  .dashboard-hidden-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 11px;
+    background: var(--lavender-pale);
+    color: var(--lavender-deep);
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    cursor: help;
+  }
+
+  /* Sales / ADS — "Save" button. Glows when there are unsaved edits so it's
+     clear the user needs to click it to refresh ADS / Days of Cover. */
+  .sales-save-btn {
+    margin-left: 4px;
+    transition: box-shadow 0.2s ease, background 0.15s ease;
+  }
+  .sales-save-btn.has-pending {
+    box-shadow: 0 0 0 0 var(--lavender-deep);
+    animation: pulseSave 1.6s ease-in-out infinite;
+    background: var(--lavender-deep);
+  }
+  @keyframes pulseSave {
+    0%   { box-shadow: 0 0 0 0   rgba(93, 72, 104, 0.55); }
+    70%  { box-shadow: 0 0 0 10px rgba(93, 72, 104, 0);   }
+    100% { box-shadow: 0 0 0 0   rgba(93, 72, 104, 0);   }
+  }
+  /* When edits are pending, dim the ADS / Days-of-Cover cells so the user
+     understands these numbers are about to refresh. */
+  .sales-table tbody.has-pending-edits .ads-cell strong,
+  .sales-table tbody.has-pending-edits .doc-cell .doc-days,
+  .sales-table tbody.has-pending-edits .doc-cell strong {
+    opacity: 0.45;
+    font-style: italic;
+  }
+
+  /* Restock annotation — appears on sales cells where the user wrote N+M.
+     Renders above the input as a tiny pill so it doesn't obscure the qty. */
+  .restock-badge {
+    display: inline-block;
+    background: #efe5d3;
+    color: #6b5a35;
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    padding: 1px 6px 1px 4px;
+    border-radius: 999px;
+    margin-bottom: 2px;
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+  .sales-table td.restock-cell {
+    background: #fbf6ec;
+  }
+  .sales-table td.restock-cell .sales-edit {
+    background: var(--white);
+    border-color: #d8c79c;
+  }
+
+  /* In-header day-columns toggle.
+     The toggle button now lives in the "Average Daily Sales" header — a tiny
+     chevron sitting to the left of the label. Clicking the chevron expands
+     or collapses the per-day columns; the rest of the header still sorts. */
+  .days-toggle-btn {
+    background: var(--lavender-pale);
+    border: 1px solid transparent;
+    color: var(--lavender-deep);
+    font-size: 10px;
+    line-height: 1;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    margin-right: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    vertical-align: middle;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .days-toggle-btn:hover {
+    background: var(--lavender-deep);
+    color: var(--white);
+    border-color: var(--lavender-deep);
+    transform: scale(1.08);
+  }
+  .sales-table th.ads-cell {
+    white-space: nowrap;
+  }
+  .sales-table th.ads-cell .ads-header-label {
+    vertical-align: middle;
+  }
+
   .supplier-name {
     flex: 1; min-width: 0;
     font-size: 17px;
@@ -1441,19 +1855,462 @@
     gap: 16px;
     margin-bottom: 16px;
   }
+  /* === Drop zone wrapping each section === */
+  .wh-section-drop {
+    border: 2px dashed transparent;
+    border-radius: var(--radius-lg);
+    padding: 8px 6px;
+    margin-bottom: 18px;
+    transition: background 0.18s ease, border-color 0.18s ease;
+  }
+  .wh-section-drop.drag-over {
+    border-color: var(--lavender-deep);
+    background: var(--lavender-faint);
+  }
+  .wh-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  /* ============ Multi-shade group (parent card) ============ */
+  .wh-group {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: box-shadow 0.18s ease, border-color 0.18s ease, opacity 0.18s ease, transform 0.18s ease;
+    cursor: grab;
+  }
+  .wh-group[draggable="true"]:active { cursor: grabbing; }
+  .wh-group.dragging {
+    opacity: 0.45;
+    transform: scale(0.99);
+    box-shadow: var(--shadow);
+  }
+  .wh-group-drag-handle {
+    opacity: 0.4;
+    margin-right: 4px;
+    transition: opacity 0.18s ease, color 0.18s ease;
+  }
+  .wh-group:hover .wh-group-drag-handle {
+    opacity: 0.9;
+    color: var(--lavender-deep);
+  }
+
+  /* ============================================================
+     Stock-update mode — slim card body with a prominent qty input
+     so the user can tab-tab-tab through a daily count.
+     ============================================================ */
+  .wh-card-body-stock-update {
+    flex: 1 1 0;
+    min-width: 0;
+    gap: 2px;
+  }
+  .wh-card-body-stock-update .wh-card-sku {
+    font-size: 9.5px;
+  }
+  .wh-card-body-stock-update .wh-card-name {
+    font-size: 14px;
+    margin-top: 1px;
+  }
+  .wh-stock-update-input {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 3px;
+    flex-shrink: 0;
+    margin-left: 8px;
+  }
+  .wh-stock-update-label {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-mute);
+    font-weight: 600;
+  }
+  .wh-stock-update-input input[type="number"] {
+    width: 100px;
+    padding: 9px 12px;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: right;
+    border: 2px solid var(--lavender);
+    border-radius: var(--radius);
+    background: var(--white);
+    color: var(--ink);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    font-variant-numeric: tabular-nums;
+  }
+  .wh-stock-update-input input[type="number"]:focus {
+    outline: none;
+    border-color: var(--lavender-deep);
+    box-shadow: 0 0 0 3px var(--lavender-pale);
+  }
+  .wh-group-update-mode {
+    cursor: default !important;
+  }
+  .wh-group-update-mode .wh-group-summary {
+    cursor: default;
+  }
+  .wh-group-update-mode .wh-group-toggle {
+    display: none; /* group is already open, hide the toggle hint */
+  }
+  /* In update mode, the parent group row is non-interactive — only the shade
+     inputs inside need to be reachable. Also remove the drag-handle visual. */
+  .wh-group-update-mode .wh-group-drag-handle { display: none; }
+
+  .update-stocks-bar {
+    background: var(--lavender-deep);
+  }
+  .update-stocks-bar .btn-bulk-primary {
+    background: var(--white);
+    color: var(--lavender-deep);
+  }
+  .update-stocks-bar .btn-bulk-primary:hover {
+    background: var(--lavender-pale);
+  }
+
+  /* Partner-sync result table */
+  .transfer-result-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+    font-size: 12px;
+  }
+  .transfer-result-table th {
+    background: var(--lavender-faint);
+    padding: 6px 8px;
+    font-weight: 600;
+    font-size: 10.5px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    border-bottom: 1px solid var(--line);
+    position: sticky;
+    top: 0;
+  }
+  .transfer-result-table td {
+    padding: 5px 8px;
+    border-bottom: 1px solid var(--lavender-faint);
+  }
+  .transfer-result-table tbody tr:hover { background: var(--lavender-faint); }
+  .transfer-modal { max-height: 86vh; overflow-y: auto; }
+
+  @media (max-width: 720px) {
+    .wh-stock-update-input input[type="number"] {
+      width: 80px;
+      font-size: 16px;
+      padding: 7px 10px;
+    }
+  }
+  /* ============================================================
+     Bulk selection UI — checkboxes on cards + floating action bar
+     ============================================================ */
+  .wh-bulk-checkbox {
+    width: 20px; height: 20px;
+    accent-color: var(--lavender-deep);
+    cursor: pointer;
+    flex-shrink: 0;
+    margin-right: 4px;
+  }
+  /* Indeterminate (some-but-not-all) state for group checkbox is set via
+     attribute. We can't fully style the native browser indeterminate visual
+     but we can ensure the attribute applies. The actual property is set in
+     the layout post-render hook below. */
+  .wh-bulk-checkbox-group[data-indeterminate="1"] {
+    /* visual hint via outline since browsers handle indeterminate inconsistently */
+    outline: 2px solid var(--lavender-deep);
+    outline-offset: -2px;
+    border-radius: 3px;
+  }
+  .wh-card-selected {
+    border-color: var(--lavender-deep) !important;
+    background: var(--lavender-faint) !important;
+    box-shadow: 0 0 0 2px var(--lavender-pale) inset;
+  }
+  .wh-group-selected {
+    border-color: var(--lavender-deep) !important;
+    box-shadow: 0 0 0 2px var(--lavender-pale) inset;
+  }
+  .wh-group-partial {
+    border-color: var(--lavender) !important;
+  }
+
+  .bulk-action-bar {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--ink);
+    color: var(--white);
+    padding: 12px 12px 12px 22px;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 12px 36px rgba(0,0,0,0.25), 0 2px 8px rgba(0,0,0,0.18);
+    z-index: 200;
+    max-width: calc(100vw - 32px);
+    font-size: 13px;
+  }
+  .bulk-count {
+    white-space: nowrap;
+    opacity: 0.9;
+  }
+  .bulk-count strong {
+    color: var(--white);
+    font-weight: 600;
+    font-size: 14px;
+  }
+  .bulk-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .btn-bulk-primary {
+    background: var(--lavender-deep);
+    color: var(--white);
+    border: none;
+    padding: 9px 18px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 12.5px;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.05s ease;
+    letter-spacing: 0.02em;
+  }
+  .btn-bulk-primary:hover { background: #4d3a59; }
+  .btn-bulk-primary:active { transform: translateY(1px); }
+  .btn-bulk-primary:disabled {
+    background: rgba(255,255,255,0.18);
+    color: rgba(255,255,255,0.5);
+    cursor: not-allowed;
+  }
+  .btn-bulk-secondary {
+    background: transparent;
+    color: var(--white);
+    border: 1px solid rgba(255,255,255,0.22);
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-weight: 500;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+  .btn-bulk-secondary:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.4);
+  }
+  .btn-bulk-close {
+    background: transparent;
+    color: rgba(255,255,255,0.7);
+    border: none;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    font-size: 14px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .btn-bulk-close:hover {
+    background: rgba(255,255,255,0.12);
+    color: var(--white);
+  }
+  @media (max-width: 720px) {
+    .bulk-action-bar {
+      flex-wrap: wrap;
+      bottom: 12px;
+      padding: 10px 10px 10px 18px;
+      gap: 10px;
+    }
+    .bulk-count { width: 100%; text-align: center; }
+    .bulk-actions { width: 100%; justify-content: center; flex-wrap: wrap; }
+  }
+  .wh-group:hover { box-shadow: var(--shadow); border-color: var(--lavender); }
+  .wh-group-summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: linear-gradient(135deg, var(--lavender-faint) 0%, var(--white) 100%);
+    transition: background 0.18s ease;
+  }
+  .wh-group-summary::-webkit-details-marker { display: none; }
+  .wh-group-summary:hover {
+    background: linear-gradient(135deg, var(--lavender-pale) 0%, var(--lavender-faint) 100%);
+  }
+  .wh-group[open] .wh-group-summary {
+    border-bottom: 1px dashed var(--line);
+  }
+  .wh-group-icon {
+    font-size: 22px;
+    line-height: 1;
+    flex-shrink: 0;
+    filter: saturate(0.85);
+  }
+  .wh-group-photo {
+    width: 60px; height: 60px;
+    aspect-ratio: 1 / 1;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--lavender-pale);
+    border: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .wh-group-photo img { width: 100%; height: 100%; object-fit: cover; }
+  .wh-group-photo-empty span {
+    font-size: 26px;
+    line-height: 1;
+    filter: saturate(0.85);
+  }
+  .wh-group-photo-more {
+    position: absolute;
+    bottom: 3px;
+    right: 3px;
+    background: var(--ink);
+    color: var(--white);
+    font-size: 9.5px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 999px;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+  }
+  .wh-group-name-block {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .wh-group-base {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: 0.005em;
+  }
+  .wh-group-meta {
+    font-size: 11px;
+    color: var(--ink-mute);
+    letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums;
+  }
+  .wh-group-toggle {
+    background: #5D4868;
+    color: var(--white);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: var(--radius);
+    flex-shrink: 0;
+    transition: background 0.18s ease, transform 0.18s ease;
+    box-shadow: 0 1px 3px rgba(93,72,104,0.25);
+    white-space: nowrap;
+  }
+  .wh-group-toggle::after {
+    content: ' ▾';
+    display: inline-block;
+    transition: transform 0.18s ease;
+    margin-left: 3px;
+  }
+  .wh-group[open] .wh-group-toggle::after { content: ' ▴'; }
+  .wh-group .wh-group-toggle .wh-group-toggle-hide { display: none; }
+  .wh-group[open] .wh-group-toggle .wh-group-toggle-show { display: none; }
+  .wh-group[open] .wh-group-toggle .wh-group-toggle-hide { display: inline; }
+  .wh-group-summary:hover .wh-group-toggle {
+    background: #432F4F;
+    transform: translateY(-1px);
+  }
+  .wh-group-shades {
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: var(--lavender-faint);
+  }
+  /* Inside a group, shade cards are text-only — no thumbnail or emoji placeholder.
+     Edit-mode keeps the photo upload area available (it's a full-width upload region,
+     not a thumbnail). */
+  .wh-group-shades .wh-card:not(.editing) .wh-card-photo { display: none; }
+  /* Inside a group, drop the qty box's side borders (they leave a stray vertical
+     line on the left edge of the card) and lay SKU + name + qty out inline so the
+     content sits in a centered, balanced row. */
+  .wh-group-shades .wh-card:not(.editing) .wh-card-qty {
+    border-left: none;
+    border-right: none;
+    padding: 0;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 8px;
+    min-width: 0;
+  }
+  .wh-group-shades .wh-card:not(.editing) .wh-card-qty-value {
+    font-size: 15px;
+  }
+  .wh-group-shades .wh-card:not(.editing) .wh-card-body {
+    flex-direction: row;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+  .wh-group-shades .wh-card:not(.editing) {
+    justify-content: flex-start;
+    gap: 12px;
+  }
+  /* === Card as a horizontal row === */
   .wh-card {
     background: var(--white);
     border: 1px solid var(--line);
     border-radius: var(--radius-lg);
-    padding: 16px;
-    transition: all 0.18s ease;
-    display: flex; flex-direction: column; gap: 12px;
+    padding: 10px 14px;
+    transition: box-shadow 0.18s ease, border-color 0.18s ease, opacity 0.18s ease, transform 0.18s ease;
+    display: flex; flex-direction: row; align-items: center; gap: 14px;
     position: relative;
+    cursor: grab;
   }
-  .wh-card:hover { box-shadow: var(--shadow); border-color: var(--lavender); }
-  .wh-card.editing { border-color: var(--lavender-deep); background: var(--lavender-faint); }
+  .wh-card[draggable="true"]:active { cursor: grabbing; }
+  .wh-card.dragging {
+    opacity: 0.45;
+    transform: scale(0.99);
+    box-shadow: var(--shadow);
+  }
+  .wh-card:hover {
+    box-shadow: var(--shadow);
+    border-color: var(--lavender);
+  }
+  .wh-card.editing {
+    border-color: var(--lavender-deep);
+    background: var(--lavender-faint);
+    cursor: default;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .wh-card-drag-handle {
+    color: var(--ink-mute);
+    font-size: 14px;
+    letter-spacing: -2px;
+    flex-shrink: 0;
+    margin-right: -4px;
+    opacity: 0.4;
+    transition: opacity 0.18s ease;
+  }
+  .wh-card:hover .wh-card-drag-handle { opacity: 0.9; color: var(--lavender-deep); }
+  .wh-card.editing .wh-card-drag-handle { display: none; }
+  /* === Photo: small square on the left in row mode === */
   .wh-card-photo {
-    width: 100%;
+    width: 64px; height: 64px;
     aspect-ratio: 1 / 1;
     background: var(--lavender-pale);
     border: 1px solid var(--line);
@@ -1461,52 +2318,77 @@
     overflow: hidden;
     display: flex; align-items: center; justify-content: center;
     position: relative;
+    flex-shrink: 0;
+  }
+  .wh-card.editing .wh-card-photo {
+    width: 100%;
+    aspect-ratio: auto;
+    height: 110px;
+    max-height: 140px;
   }
   .wh-card-photo.editable { cursor: pointer; }
   .wh-card-photo.editable:hover { border-color: var(--lavender-deep); }
   .wh-card-photo img { width: 100%; height: 100%; object-fit: cover; }
-  .wh-card-photo-empty { color: var(--lavender-deep); font-size: 32px; font-weight: 300; }
-  .wh-card-photo-empty.locked { color: var(--ink-mute); font-size: 24px; }
+  .wh-card-photo-empty { color: var(--lavender-deep); font-size: 24px; font-weight: 300; }
+  .wh-card-photo-empty.locked { color: var(--ink-mute); font-size: 18px; }
   .wh-card-photo-remove {
-    position: absolute; top: 6px; right: 6px;
-    width: 22px; height: 22px;
+    position: absolute; top: 2px; right: 2px;
+    width: 18px; height: 18px;
     border-radius: 50%;
     background: rgba(28,28,28,0.75); color: var(--white);
     border: none; cursor: pointer;
     display: none; align-items: center; justify-content: center;
-    font-size: 14px; line-height: 1;
+    font-size: 12px; line-height: 1;
   }
   .wh-card-photo.editable:hover .wh-card-photo-remove { display: flex; }
+  /* === Body in row mode: SKU + Name stacked, takes flexible space === */
   .wh-card-body {
-    display: flex; flex-direction: column; gap: 8px;
+    display: flex; flex-direction: column; gap: 2px;
+    flex: 1 1 auto;
+    min-width: 0;
   }
+  .wh-card.editing .wh-card-body { gap: 8px; }
   .wh-card-sku {
     font-size: 10px; font-weight: 700;
-    letter-spacing: 0.18em; text-transform: uppercase;
+    letter-spacing: 0.16em; text-transform: uppercase;
     color: var(--lavender-deep);
   }
   .wh-card-name {
-    font-size: 14px; font-weight: 600;
+    font-size: 13.5px; font-weight: 600;
     color: var(--ink);
-    line-height: 1.35;
-    min-height: 2.7em;
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
+  .wh-card.editing .wh-card-name { white-space: normal; }
+  /* === Quantity: prominent number on the right (row mode) === */
   .wh-card-qty {
-    display: flex; align-items: baseline; gap: 6px;
-    padding-top: 8px;
+    display: flex; flex-direction: column; align-items: flex-end;
+    flex-shrink: 0;
+    padding: 0 10px;
+    border-left: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+    min-width: 110px;
+  }
+  .wh-card.editing .wh-card-qty {
+    flex-direction: row; padding-top: 8px;
     border-top: 1px solid var(--line);
+    border-left: none; border-right: none;
+    align-items: baseline;
   }
   .wh-card-qty-label {
-    font-size: 9px; font-weight: 700;
-    letter-spacing: 0.16em; text-transform: uppercase;
+    font-size: 8.5px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
     color: var(--ink-mute);
   }
   .wh-card-qty-value {
     font-size: 22px; font-weight: 700;
     color: var(--ink);
-    line-height: 1;
-    margin-left: auto;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
   }
+  .wh-card.editing .wh-card-qty-value { margin-left: auto; }
   .wh-card input[type="text"],
   .wh-card input[type="number"] {
     font-family: inherit; font-size: 13px;
@@ -1517,10 +2399,12 @@
     width: 100%;
   }
   .wh-card input:focus { outline: none; border-color: var(--lavender-deep); }
+  /* === Actions in row mode: compact horizontal === */
   .wh-card-actions {
     display: flex; gap: 6px;
-    margin-top: 4px;
+    flex-shrink: 0;
   }
+  .wh-card.editing .wh-card-actions { margin-top: 4px; }
   .wh-card-actions .btn-edit { flex: 1; }
   .wh-card-actions .row-delete {
     flex-shrink: 0;
@@ -1528,12 +2412,18 @@
 
   /* ============ TRANSFER (BS → DayOne) ============ */
   .wh-transfer-block {
-    margin-top: 6px;
-    padding: 10px 12px;
+    padding: 8px 12px;
     background: var(--lavender-faint);
     border: 1px solid var(--lavender-pale);
     border-radius: var(--radius);
-    display: flex; flex-direction: column; gap: 6px;
+    display: flex; flex-direction: column; gap: 4px;
+    flex-shrink: 0;
+    min-width: 220px;
+    max-width: 260px;
+  }
+  .wh-card.editing .wh-transfer-block {
+    margin-top: 6px;
+    width: 100%; max-width: none;
   }
   .wh-transfer-line {
     display: flex; justify-content: space-between; align-items: baseline;
@@ -1569,15 +2459,15 @@
   }
   .btn-transfer {
     font-family: inherit;
-    font-size: 10px; font-weight: 700;
-    letter-spacing: 0.16em; text-transform: uppercase;
-    padding: 8px 12px;
+    font-size: 9.5px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 6px 10px;
     border: 1px solid var(--status-healthy);
     background: var(--white); color: var(--status-healthy);
     border-radius: var(--radius);
     cursor: pointer;
     transition: all 0.18s ease;
-    margin-top: 4px;
+    margin-top: 2px;
     width: 100%;
   }
   .btn-transfer:hover {
@@ -1864,6 +2754,66 @@
     .wh-reorder-row-metric:nth-of-type(1) { grid-area: stock; }
     .wh-reorder-row-metric:nth-of-type(2) { grid-area: ads; }
     .wh-reorder-row-metric:nth-of-type(3) { grid-area: days; }
+
+    /* ============ Warehouse cards: vertical stack on phones ============ */
+    .wh-card {
+      flex-wrap: wrap;
+      padding: 12px;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .wh-card-photo { width: 56px; height: 56px; }
+    .wh-card-drag-handle { display: none; } /* save space; tap-and-hold still drags */
+    .wh-card-body {
+      flex: 1 1 0; min-width: 0;
+      gap: 4px;
+    }
+    .wh-card-body .wh-card-name { font-size: 14px; }
+    .wh-card-qty {
+      border-left: none !important;
+      border-right: none !important;
+      padding: 0 !important;
+      flex-direction: row !important;
+      align-items: baseline !important;
+      gap: 8px !important;
+      min-width: 0 !important;
+    }
+    .wh-card-qty-value { font-size: 18px !important; }
+    .wh-transfer-block {
+      width: 100%;
+      min-width: 0;
+      max-width: none;
+      order: 5; /* push below body */
+    }
+    .wh-card-actions {
+      width: 100%;
+      order: 6;
+      justify-content: flex-start;
+    }
+
+    /* ============ Group parent row: wrap on phones ============ */
+    .wh-group-summary {
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 14px;
+      align-items: center;
+    }
+    .wh-group-drag-handle { display: none; }
+    .wh-group-photo { width: 52px; height: 52px; }
+    .wh-group-name-block { flex: 1 1 0; min-width: 0; }
+    .wh-group-base { font-size: 14px; }
+    .wh-group-meta { font-size: 10.5px; }
+    .wh-group-toggle {
+      width: 100%;
+      order: 5;
+      text-align: center;
+      padding: 8px 12px;
+    }
+    .wh-group-shades { padding: 8px; }
+
+    /* ============ Snapshot bar + header on mobile ============ */
+    .header-actions { flex-wrap: wrap; gap: 8px; }
+    .header-snapshot-label { font-size: 10px; }
   }
 
   /* ============ DASHBOARD EXTRAS ============ */
@@ -2244,10 +3194,11 @@
   </nav>
 </header>
 <div id="wh-reorder-banner-host" style="display:none;"></div>
-<nav class="sub-nav" id="sub-nav-wh" style="display:none;">
-  <button class="sub-nav-item" data-subview="inventoryBS"><span class="sub-nav-emoji">🏬</span> Inventory · BS <span id="sub-count-bs">0</span></button>
-  <button class="sub-nav-item" data-subview="inventoryDayOne"><span class="sub-nav-emoji">🏪</span> Inventory · DayOne <span id="sub-count-do">0</span></button>
-</nav>
+<!-- Warehouse sub-nav previously offered BS + DayOne. BS warehouse was retired
+     once all stock had moved to DayOne, so this sub-nav is no longer rendered.
+     The BS data and code paths are intact for legacy access via state, but the
+     entry point is hidden so the warehouse nav goes straight to DayOne. -->
+<nav class="sub-nav" id="sub-nav-wh" style="display:none;"></nav>
 <nav class="sub-nav" id="sub-nav" style="display:none;">
   <button class="sub-nav-item" data-subview="inProduction"><span class="sub-nav-emoji">⏳</span> In Production <span id="sub-count-ip">0</span></button>
   <button class="sub-nav-item" data-subview="completedProduction"><span class="sub-nav-emoji">✅</span> Completed Production <span id="sub-count-cp">0</span></button>
@@ -2348,11 +3299,10 @@
       <input type="number" id="receive-qty" min="1" placeholder="0">
       <span class="receive-modal-summary-line" id="receive-qty-meta">—</span>
     </div>
-    <div class="receive-modal-field">
+    <div class="receive-modal-field" style="display:none;" data-bs-retired="true">
       <label>Destination warehouse</label>
       <select id="receive-warehouse">
-        <option value="bs">🏬 BS Warehouse</option>
-        <option value="dayone">🏪 DayOne Warehouse</option>
+        <option value="dayone" selected>🏪 DayOne Warehouse</option>
       </select>
     </div>
     <div class="receive-modal-field">
@@ -2401,15 +3351,40 @@ let state = {
   warehouseInventory: {
     bs:     { customized: [], whitelabel: [], packaging: [] },
     dayone: { customized: [], whitelabel: [], packaging: [] }
-  }
+  },
+  dailySalesData: null,
+  adsReport: null
 };
 
-let currentView = 'inventoryBS';
+let currentView = 'inventoryDayOne';
 let activeOrderSku = null;
 let pendingImportTarget = null;
 let pendingPhotoTarget = null;
 
+// Bulk selection state — only used in BS warehouse view for the "move many to
+// DayOne at once" workflow. Cleared whenever the user navigates away or clicks
+// "Cancel".
+let bulkSelectActive = false;
+const bulkSelectedIds = new Set();
+
+// Daily stock-update mode — every card collapses to a slim row with a single
+// big qty input so the user can tab through and re-count quickly. Works in
+// both BS and DayOne. Changes save on blur (same data-attribute pattern as
+// the normal edit form).
+let updateStocksActive = false;
+
+// Analytics dashboard — edit-mode state. When active, each row gets a delete
+// (hide) button. Hidden SKUs are persisted in state.dashboardHiddenSkus so
+// they stay hidden across sessions; "Show All" wipes the list.
+let dashboardEditActive = false;
+
+// Sales / ADS — flag is set whenever the user edits a sales cell, and cleared
+// when they click the Save button (which triggers a full re-render so ADS and
+// Days of Cover recompute everywhere).
+let salesEditsPending = false;
+
 const expandedPOs = new Set();
+const expandedGroups = new Set();  // dashboard groups expanded by user (key = normalized base name)
 const expandedSuppliers = new Set();
 const editingPOs = new Set();
 const editingSuppliers = new Set();
@@ -2493,6 +3468,18 @@ function applyRemoteState(parsed) {
       // Don't delete po.actualProductionEndDate — leave it as harmless extra data
     });
   });
+  // Migration: drop __EMPTY phantom sales entries that snuck in from older
+  // vertical Excel imports — xlsx auto-names unlabeled trailing columns as
+  // "__EMPTY", "__EMPTY_1", etc., and earlier versions of the importer didn't
+  // filter them out. They render as empty zero-rows in the sales table.
+  if (Array.isArray(state.sales)) {
+    state.sales = state.sales.filter(s => {
+      const sku  = String(s && s.sku  || '').trim();
+      const name = String(s && s.name || '').trim();
+      const looksPhantom = /^__EMPTY(_\d+)?$/i.test(sku) || /^__EMPTY(_\d+)?$/i.test(name);
+      return !looksPhantom;
+    });
+  }
   if (!state.salesAnchorDate) state.salesAnchorDate = todayISO();
 }
 
@@ -2621,6 +3608,15 @@ function parseDate(d) {
   const p = new Date(d);
   return isNaN(p.getTime()) ? null : p;
 }
+/**
+ * Best estimate for when a production batch will land in the warehouse.
+ * Prefers the line item's actual production end date when the supplier has
+ * recorded it (real, measured signal); falls back to the PO-level promise
+ * date when not. This is what every Days-of-Cover calculation reads.
+ */
+function getBatchArrival(po, li) {
+  return parseDate((li && li.actualProductionEndDate) || (po && po.promiseDate));
+}
 function todayISO() {
   const d = new Date();
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
@@ -2663,32 +3659,71 @@ function fmtDateRelative(d) {
 }
 
 /**
- * Group in-production batches by promise date and return rendered HTML for
- * a per-delivery breakdown. Returns empty string if there's only one unique
- * delivery date (callers fall back to a single "next delivery:" line in that case).
+ * Group in-production batches by promise date and return a collapsed
+ * <details> dropdown showing the cumulative days-of-cover heading into
+ * each delivery window — so colleagues can spot a potential stockout
+ * BEFORE a specific delivery (an overall "incl. prod" number can hide that).
+ *
+ * Returns empty string if there's only one unique delivery date
+ * (callers fall back to a single "next delivery:" line in that case).
  */
-function renderDeliveryBreakdown(batches) {
+function renderDeliveryBreakdown(batches, ads, daysImmediate) {
   if (!Array.isArray(batches) || batches.length === 0) return '';
-  const groups = new Map(); // dateKey → { date, qty }
+  const groups = new Map();
   batches.forEach(b => {
-    const date = parseDate(b && b.po && b.po.promiseDate);
+    const date = getBatchArrival(b && b.po, b && b.li);
     const qty  = +((b && b.li && b.li.quantity) || 0);
     if (qty <= 0) return;
     const key = date ? date.toISOString().slice(0, 10) : '_no_date';
     if (!groups.has(key)) groups.set(key, { date, qty: 0 });
     groups.get(key).qty += qty;
   });
-  if (groups.size <= 1) return ''; // single date → use the original single-line layout
+  if (groups.size <= 1) return '';
   const sorted = Array.from(groups.values()).sort((a, b) => {
     if (!a.date) return 1;
     if (!b.date) return -1;
     return a.date - b.date;
   });
+  const safeAds = +ads > 0 ? +ads : 0;
+  const todayMs = Date.now();
+  let cumulativeQty = 0;
   const rows = sorted.map(g => {
-    const dateStr = g.date ? fmtDateDisplay(g.date) : 'no date';
-    return `<div class="doc-delivery-row">${escapeHtml(dateStr)} · <strong>${fmtNum(g.qty)}</strong> units</div>`;
+    const daysBefore = safeAds > 0
+      ? (+daysImmediate || 0) + (cumulativeQty / safeAds)
+      : Infinity;
+    cumulativeQty += g.qty;
+
+    let dateLabel, daysFromNow;
+    if (g.date) {
+      dateLabel = g.date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+      daysFromNow = Math.round((g.date - todayMs) / 86400000);
+    } else {
+      dateLabel = 'TBD';
+      daysFromNow = null;
+    }
+    const rel = daysFromNow == null
+      ? ''
+      : daysFromNow < 0 ? `${Math.abs(daysFromNow)}d ago`
+      : daysFromNow === 0 ? 'today'
+      : `in ${daysFromNow}d`;
+
+    // Stockout-gap warning: if cover heading into this delivery is shorter
+    // than the wait for it, there's a potential out-of-stock window.
+    const warn = isFinite(daysBefore) && daysFromNow != null && daysFromNow > 0 && daysBefore < daysFromNow;
+
+    return `<div class="doc-breakdown-row${warn ? ' dbr-warn' : ''}" title="${warn ? 'Possible stockout before this delivery — cover is shorter than the wait' : ''}">
+      🏭Before ${escapeHtml(dateLabel)} Delivery: <span class="dbr-days">${fmtDays(daysBefore)}</span>${rel ? ` · <span class="dbr-rel">${escapeHtml(rel)}</span>` : ''}
+    </div>`;
   }).join('');
-  return `<div class="doc-deliveries">${rows}</div>`;
+
+  return `<div class="doc-breakdown-summary-wrap"><details class="doc-breakdown">
+    <summary class="doc-breakdown-toggle">
+      <span class="dbt-show">See stock available before each delivery</span>
+      <span class="dbt-hide">Hide breakdown</span>
+      <span class="dbt-arrow">▾</span>
+    </summary>
+    <div class="doc-breakdown-content">${rows}</div>
+  </details></div>`;
 }
 
 /**
@@ -2699,14 +3734,14 @@ function renderDeliveryBreakdown(batches) {
  *       OR a single "next delivery: [date]" remark.
  * Returns an HTML string. Intentionally compact so it works in a table cell.
  */
-function renderDaysOfCoverBlock(daysImmediate, daysTotal, inProductionQty, soonestPromise, batches) {
+function renderDaysOfCoverBlock(daysImmediate, daysTotal, inProductionQty, soonestPromise, batches, ads) {
   let html = `<div class="doc-block">
     <div class="doc-line">
       <span class="doc-label">Current:</span>
       <span class="doc-value">${fmtDays(daysImmediate)}</span>
     </div>`;
   if (inProductionQty > 0) {
-    const breakdown = renderDeliveryBreakdown(batches);
+    const breakdown = renderDeliveryBreakdown(batches, ads, daysImmediate);
     html += `
       <div class="doc-line doc-line-prod">
         <span class="doc-label">Incl. Prod:</span>
@@ -2719,7 +3754,15 @@ function renderDaysOfCoverBlock(daysImmediate, daysTotal, inProductionQty, soone
         ? (soonestPromise instanceof Date ? soonestPromise : parseDate(soonestPromise))
         : null;
       const nextStr = nextDate ? fmtDateDisplay(nextDate) : null;
-      if (nextStr) html += `<div class="doc-next-delivery">next delivery: ${escapeHtml(nextStr)}</div>`;
+      if (nextStr) {
+        const days = Math.round((nextDate - Date.now()) / 86400000);
+        // Only show the "next delivery" hint if the promise date hasn't passed yet —
+        // an overdue PO is presumably either fulfilled or being chased separately.
+        if (days >= 0) {
+          const rel = days === 0 ? 'today' : `in ${days}d`;
+          html += `<div class="doc-next-delivery">next delivery: ${escapeHtml(nextStr)} · ${rel}</div>`;
+        }
+      }
     }
   }
   html += `</div>`;
@@ -2953,8 +3996,8 @@ function getProductRollup() {
       if (po.supplier) p.supplier = po.supplier;
       p.inProductionQty += +li.quantity || 0;
       p.batches.push({ po, li });
-      const promise = parseDate(po.promiseDate);
-      if (promise && (!p.soonestPromise || promise < p.soonestPromise)) p.soonestPromise = promise;
+      const arrival = getBatchArrival(po, li);
+      if (arrival && (!p.soonestPromise || arrival < p.soonestPromise)) p.soonestPromise = arrival;
     });
   });
   state.completedProduction.forEach(po => {
@@ -3054,14 +4097,44 @@ function getProductRollup() {
     }
   });
 
-  return Array.from(map.values());
+  // Final pass — drop "ghost" rows: SKUs with zero everything (no stock anywhere,
+  // no production, no recent sales). These are stale entries left behind by old
+  // imports (e.g. a SKU that was renamed in one module but never cleaned out of
+  // another) that would otherwise show up as "OUT" rows in the dashboard and
+  // reorder banner forever. Items with even one non-zero signal — qty, in-prod,
+  // or ADS — are kept.
+  return Array.from(map.values()).filter(p => {
+    const dead = (p.readyStock || 0) <= 0
+              && (p.inProductionQty || 0) <= 0
+              && (p.adsN || 0) <= 0;
+    return !dead;
+  });
 }
 
 /* ---------- Routing ---------- */
 function setView(view) {
   if (view === 'production') view = 'inProduction';
   if (view === 'productDev') view = 'newProductPlanning';
-  if (view === 'warehouse')  view = 'inventoryBS';
+  if (view === 'warehouse')  view = 'inventoryDayOne';
+  // Legacy BS shortcut — BS is retired; redirect to DayOne so old bookmarks
+  // and saved view state still land somewhere valid.
+  if (view === 'inventoryBS') view = 'inventoryDayOne';
+  // Bulk-select / update-stocks only make sense inside a warehouse view —
+  // drop them when leaving so they don't bleed across pages.
+  const onWarehouse = view === 'inventoryBS' || view === 'inventoryDayOne';
+  if (!onWarehouse) {
+    if (bulkSelectActive || bulkSelectedIds.size > 0) {
+      bulkSelectActive = false;
+      bulkSelectedIds.clear();
+    }
+    if (updateStocksActive) updateStocksActive = false;
+  } else if (view === 'inventoryDayOne' && bulkSelectActive) {
+    // bulk-select is BS-only; coming over to DayOne should drop it
+    bulkSelectActive = false;
+    bulkSelectedIds.clear();
+  }
+  // Dashboard edit mode resets when leaving the dashboard.
+  if (view !== 'dashboard' && dashboardEditActive) dashboardEditActive = false;
   currentView = view;
   const subNav   = document.getElementById('sub-nav');
   const subNavPD = document.getElementById('sub-nav-pd');
@@ -3103,6 +4176,12 @@ function render() {
   const onWarehouse = currentView === 'inventoryBS' || currentView === 'inventoryDayOne';
   updateWarehouseReorderBanner(onWarehouse);
   attachInlineHandlers();
+  // Set indeterminate state on group checkboxes that have some-but-not-all
+  // children selected. `indeterminate` is a JS-only property, not an HTML
+  // attribute, so it has to be applied after the DOM is built.
+  document.querySelectorAll('.wh-bulk-checkbox-group[data-indeterminate="1"]').forEach(cb => {
+    cb.indeterminate = true;
+  });
 }
 
 function updateNavCounts() {
@@ -3123,8 +4202,12 @@ function updateNavCounts() {
          + ((w.packaging  && w.packaging.length)  || 0)
          + ((w.main       && w.main.length)       || 0);  // legacy
   };
-  document.getElementById('sub-count-bs').textContent = `(${sectionCount('bs')})`;
-  document.getElementById('sub-count-do').textContent = `(${sectionCount('dayone')})`;
+  // BS sub-nav button was removed when BS warehouse was retired. Guard against
+  // the count elements being absent so updateNavCounts still works.
+  const bsCount = document.getElementById('sub-count-bs');
+  if (bsCount) bsCount.textContent = `(${sectionCount('bs')})`;
+  const doCount = document.getElementById('sub-count-do');
+  if (doCount) doCount.textContent = `(${sectionCount('dayone')})`;
 }
 
 /* ============================================================
@@ -3171,6 +4254,70 @@ function ensureWHWarehouse(w) {
  * Groups items by SKU, sums quantities across both warehouses, merges with ADS,
  * lead time and in-production qty from the product rollup, and classifies status.
  */
+/**
+ * BS warehouse legacy data cleanup.
+ *
+ * After BS was retired (UI hidden, everything bulk-moved to DayOne), some
+ * residue is left in state.warehouseInventory.bs:
+ *   • "Ghost" items   — quantity 0, transferredToDayOne 0 (stale records left
+ *     behind by old imports / renamed SKUs that never had real stock).
+ *   • "Moved" records — quantity 0, transferredToDayOne > 0 (the BS-side
+ *     entry of a bulk move, now just history). The DayOne side has the units.
+ *   • "Real" stock    — quantity > 0 (items that were never moved out and
+ *     STILL hold real inventory — these are explicitly NOT purged).
+ *
+ * Purge removes anything with quantity === 0 across all three BS sections.
+ * Real-stock items stay so the user doesn't accidentally lose inventory.
+ */
+function bsLegacyDataSummary() {
+  const bs = ensureWHWarehouse('bs');
+  const summary = { staleRecords: 0, withStock: 0, total: 0, byKind: { ghosts: 0, transferRecords: 0 } };
+  for (const sec of ['customized','whitelabel','packaging']) {
+    for (const item of (bs[sec] || [])) {
+      summary.total++;
+      const q = +item.quantity || 0;
+      const tx = +item.transferredToDayOne || 0;
+      if (q === 0) {
+        summary.staleRecords++;
+        if (tx > 0) summary.byKind.transferRecords++;
+        else        summary.byKind.ghosts++;
+      } else {
+        summary.withStock++;
+      }
+    }
+  }
+  return summary;
+}
+
+function purgeRetiredBSData() {
+  const s = bsLegacyDataSummary();
+  if (s.total === 0) { toast('BS warehouse is already empty'); return; }
+  if (s.staleRecords === 0) {
+    alert(`No stale BS records found. The ${s.withStock} item${s.withStock===1?'':'s'} in BS still hold real stock and won't be purged — move them to DayOne first if you want a fully empty BS.`);
+    return;
+  }
+  const msg =
+    `Purge retired BS warehouse data?\n\n` +
+    `• ${s.byKind.ghosts} ghost record${s.byKind.ghosts===1?'':'s'} (0 qty, never used) — will be DELETED\n` +
+    `• ${s.byKind.transferRecords} transfer record${s.byKind.transferRecords===1?'':'s'} (0 qty, history of bulk moves to DayOne) — will be DELETED\n` +
+    `• ${s.withStock} item${s.withStock===1?'':'s'} with real stock — will be KEPT in BS\n\n` +
+    `Total: ${s.staleRecords} record${s.staleRecords===1?'':'s'} removed, ${s.withStock} kept.\n\n` +
+    `This only touches BS warehouse data. DayOne is untouched. Proceed?`;
+  if (!confirm(msg)) return;
+
+  const bs = ensureWHWarehouse('bs');
+  let deleted = 0;
+  for (const sec of ['customized','whitelabel','packaging']) {
+    if (!Array.isArray(bs[sec])) continue;
+    const before = bs[sec].length;
+    bs[sec] = bs[sec].filter(it => (+it.quantity || 0) > 0);
+    deleted += before - bs[sec].length;
+  }
+  saveState();
+  render();
+  toast(`Purged ${deleted} retired BS record${deleted===1?'':'s'}${s.withStock ? ` · ${s.withStock} kept (still have stock)` : ''}`);
+}
+
 function getCombinedWarehouseReorder() {
   const bs   = ensureWHWarehouse('bs');
   const dayo = ensureWHWarehouse('dayone');
@@ -3221,6 +4368,14 @@ function getCombinedWarehouseReorder() {
       daysImmediate, daysTotal,
       status
     };
+  }).filter(p => {
+    // Drop ghost SKUs — zero everywhere with no demand. They're stale records
+    // left behind by old imports / renamed entries and only ever appear as
+    // never-actionable "OUT" rows in the banner.
+    const dead = (p.stock || 0) <= 0
+              && (p.inProductionQty || 0) <= 0
+              && (p.adsN || 0) <= 0;
+    return !dead;
   });
 }
 
@@ -3236,18 +4391,30 @@ function renderWarehouseInventory(warehouse) {
     const totalUnits = items.reduce((s, x) => s + (+x.quantity || 0), 0);
     let body;
     if (items.length === 0) {
-      body = `<div class="wh-empty-section">No ${sMeta.label.replace('&amp;','&').toLowerCase()} in ${meta.short} yet · click <em>+ Add Item</em> above to start tracking.</div>`;
+      body = `<div class="wh-empty-section">No ${sMeta.label.replace('&amp;','&').toLowerCase()} in ${meta.short} yet · click <em>+ Add Item</em> above to start tracking · or drag rows here from another section.</div>`;
     } else {
-      body = `<div class="wh-grid">${items.map(item => renderWHCard(warehouse, sectionKey, item)).join('')}</div>`;
+      const groups = groupWHItemsByBase(items);
+      body = `<div class="wh-list">${groups.map(g =>
+        g.items.length > 1
+          ? renderWHGroup(warehouse, sectionKey, g)
+          : renderWHCard(warehouse, sectionKey, g.items[0])
+      ).join('')}</div>`;
     }
     return `
-      <div class="wh-section-title">
-        <span>${sMeta.emoji}</span>
-        <span>${sMeta.label}</span>
-        <span class="wh-count">${items.length}</span>
-        <span class="wh-section-total">${fmtNum(totalUnits)} units</span>
-      </div>
-      ${body}`;
+      <div class="wh-section-drop"
+           data-warehouse="${escapeAttr(warehouse)}"
+           data-section="${escapeAttr(sectionKey)}"
+           ondragover="handleWHDragOver(event)"
+           ondragleave="handleWHDragLeave(event)"
+           ondrop="handleWHDrop(event, '${escapeAttr(warehouse)}', '${escapeAttr(sectionKey)}')">
+        <div class="wh-section-title">
+          <span>${sMeta.emoji}</span>
+          <span>${sMeta.label}</span>
+          <span class="wh-count">${items.length}</span>
+          <span class="wh-section-total">${fmtNum(totalUnits)} units</span>
+        </div>
+        ${body}
+      </div>`;
   };
 
   return `
@@ -3263,11 +4430,25 @@ function renderWarehouseInventory(warehouse) {
     ${sectionHTML('customized')}
     ${sectionHTML('whitelabel')}
     ${sectionHTML('packaging')}
-    <div class="action-bar" style="margin-top: 32px; margin-bottom: 8px;">
+    <div class="action-bar" style="margin-top: 32px; margin-bottom: 8px; flex-wrap: wrap;">
       <button class="btn btn-primary" onclick="addWHItem('${warehouse}','customized')">+ Add Customized</button>
       <button class="btn btn-primary" onclick="addWHItem('${warehouse}','whitelabel')">+ Add White Label</button>
       <button class="btn" onclick="addWHItem('${warehouse}','packaging')">+ Add Packaging / Gift</button>
-    </div>`;
+      <span style="width: 1px; background: var(--line); align-self: stretch; margin: 0 6px;"></span>
+      <button class="btn" onclick="exportCurrentStocks('${warehouse}')" title="Download a spreadsheet of current items — edit SKUs / names / quantities and re-import">📤 Export Current</button>
+      <button class="btn" onclick="triggerImport('warehouseItems_${warehouse}')">📥 Import Excel</button>
+      <button class="btn btn-ghost" onclick="downloadTemplate('warehouseItems')">Blank Template</button>
+      <span style="width: 1px; background: var(--line); align-self: stretch; margin: 0 6px;"></span>
+      <button class="btn" onclick="triggerImport('partnerStock_${warehouse}')" title="Reads SKU + Stock Forecast columns only. Matches by SKU, updates quantities only — names, photos, sections are preserved.">🚚 Sync from Fulfillment Partner</button>
+      <span style="width: 1px; background: var(--line); align-self: stretch; margin: 0 6px;"></span>
+      <button class="btn ${updateStocksActive ? 'btn-primary' : ''}" onclick="toggleUpdateStocks()">${updateStocksActive ? '✓ Done Updating' : '📝 Update Stocks'}</button>
+      ${isBS ? `<button class="btn ${bulkSelectActive ? 'btn-primary' : ''}" onclick="toggleBulkSelect()">${bulkSelectActive ? '✓ Done Selecting' : '☐ Select Multiple'}</button>` : ''}
+      ${!isBS && bsLegacyDataSummary().staleRecords > 0
+        ? `<button class="btn btn-ghost" onclick="purgeRetiredBSData()" title="Delete leftover BS warehouse records (zero-qty ghost rows and bulk-move history). Items with real stock are kept.">🧹 Clean up BS legacy data <span style="color:var(--ink-mute); font-size:11px;">(${bsLegacyDataSummary().staleRecords})</span></button>`
+        : ''}
+    </div>
+    ${isBS && bulkSelectActive ? renderBulkActionBar() : ''}
+    ${updateStocksActive ? renderUpdateStocksBar(warehouse) : ''}`;
 }
 
 /* ============================================================
@@ -3543,7 +4724,7 @@ function buildWarehouseReorderBannerHTML() {
       <div class="wh-reorder-row-metric">
         <span class="wh-reorder-row-metric-label">Total Stock</span>
         <span class="wh-reorder-row-metric-value">${fmtNum(p.stock)}</span>
-        <span class="wh-reorder-row-metric-sub">${fmtNum(p.bsQty)} BS · ${fmtNum(p.dayoneQty)} DayOne</span>
+        <span class="wh-reorder-row-metric-sub">${p.bsQty > 0 ? `${fmtNum(p.bsQty)} BS · ` : ''}${fmtNum(p.dayoneQty)} DayOne</span>
       </div>
       <div class="wh-reorder-row-metric">
         <span class="wh-reorder-row-metric-label">ADS ${p.adsDays}d</span>
@@ -3555,9 +4736,15 @@ function buildWarehouseReorderBannerHTML() {
         ${p.inProductionQty > 0 ? `
           <span class="wh-reorder-row-metric-incl">incl. prod: <strong>${fmtDays(p.daysTotal)}</strong></span>
           ${(() => {
-            const breakdown = renderDeliveryBreakdown(p.batches);
+            const breakdown = renderDeliveryBreakdown(p.batches, p.adsN, p.daysImmediate);
             if (breakdown) return breakdown;
-            return p.soonestPromise ? `<span class="wh-reorder-row-metric-sub">next delivery: ${escapeHtml(fmtDateDisplay(p.soonestPromise))}</span>` : '';
+            if (!p.soonestPromise) return '';
+            const nextDate = p.soonestPromise instanceof Date ? p.soonestPromise : parseDate(p.soonestPromise);
+            if (!nextDate) return '';
+            const days = Math.round((nextDate - Date.now()) / 86400000);
+            if (days < 0) return ''; // overdue — hide; presumably already handled
+            const rel = days === 0 ? 'today' : `in ${days}d`;
+            return `<span class="wh-reorder-row-metric-sub">next delivery: ${escapeHtml(fmtDateDisplay(nextDate))} · ${rel}</span>`;
           })()}
         ` : ''}
       </div>
@@ -3600,7 +4787,110 @@ function updateWarehouseReorderBanner(visible) {
   }
 }
 
-function renderWHCard(warehouse, section, item) {
+/**
+ * Parse a product name into base + shade. The shade is whatever sits inside
+ * the LAST trailing parenthesised group: "Eyeshadow Stick (Bronzed Elegance)"
+ *   → { base: "Eyeshadow Stick", shade: "Bronzed Elegance" }.
+ * Products without trailing parens return shade: null and are rendered as
+ * standalone cards (no dropdown wrapper).
+ */
+function parseShadeFromName(name) {
+  if (!name) return { base: '', shade: null };
+  // Accept both ASCII "(...)" and full-width CJK "（...）" parens (sometimes
+  // typed accidentally on Chinese/Japanese IMEs). Either side can be mixed.
+  const m = String(name).match(/^(.+?)\s*[\(（]([^()（）]*)[\)）]\s*$/);
+  if (m) return { base: m[1].trim(), shade: m[2].trim() };
+  return { base: String(name).trim(), shade: null };
+}
+
+/**
+ * Group an array of warehouse items by base name. Each group has:
+ *   { base, items: [...] }  where items keep their original order.
+ * Singletons (no shade siblings) are returned as 1-item groups so the
+ * caller can branch on group.items.length === 1 vs > 1.
+ */
+function groupWHItemsByBase(items) {
+  const map = new Map();
+  const order = [];
+  (items || []).forEach(item => {
+    const { base } = parseShadeFromName(item.name || '');
+    const key = (base || item.sku || item.id || '').toLowerCase();
+    if (!map.has(key)) {
+      map.set(key, { base: base || item.name || '(Unnamed)', items: [] });
+      order.push(key);
+    }
+    map.get(key).items.push(item);
+  });
+  return order.map(k => map.get(k));
+}
+
+/**
+ * Render a "parent" card for a multi-shade group. Uses native <details>/<summary>
+ * so it's keyboard-accessible and stateful per-element. The shade cards inside
+ * are full renderWHCard outputs — drag, edit, transfer, and delete all keep working.
+ */
+function renderWHGroup(warehouse, section, group) {
+  const totalQty = group.items.reduce((s, x) => s + (+x.quantity || 0), 0);
+  const totalTx  = group.items.reduce((s, x) => s + (+x.transferredToDayOne || 0), 0);
+  // Use the first shade with a photo as the parent thumbnail. If multiple shades
+  // have photos, show a small "+N" badge so it's clear the photo only represents
+  // one of several variants.
+  const photosCount = group.items.filter(x => x && x.photo).length;
+  const firstPhoto  = (group.items.find(x => x && x.photo) || {}).photo;
+  const extraPhotos = photosCount > 1 ? photosCount - 1 : 0;
+  const photoBlock = firstPhoto
+    ? `<div class="wh-group-photo">
+         <img src="${escapeAttr(firstPhoto)}" alt="" draggable="false">
+         ${extraPhotos > 0 ? `<span class="wh-group-photo-more">+${extraPhotos}</span>` : ''}
+       </div>`
+    : `<div class="wh-group-photo wh-group-photo-empty"><span>🎨</span></div>`;
+  const shadeCards = group.items.map(item => renderWHCard(warehouse, section, item, { insideGroup: true })).join('');
+
+  // The whole group is the draggable unit — moving the parent moves all shades.
+  // Item IDs are passed JSON-encoded through the dragstart handler so the drop
+  // target can relocate every shade in one go.
+  const itemIdsJson = JSON.stringify(group.items.map(x => x.id));
+  const isBS = warehouse === 'bs';
+  const showSelect = bulkSelectActive && isBS;
+  const ids = group.items.map(x => x.id);
+  const selectedInGroup = showSelect ? ids.filter(id => bulkSelectedIds.has(id)).length : 0;
+  const allSelected = showSelect && selectedInGroup === ids.length;
+  const someSelected = showSelect && selectedInGroup > 0 && !allSelected;
+  const groupCheckbox = showSelect
+    ? `<input type="checkbox" class="wh-bulk-checkbox wh-bulk-checkbox-group"
+              ${allSelected ? 'checked' : ''}
+              ${someSelected ? 'data-indeterminate="1"' : ''}
+              onclick="event.stopPropagation()"
+              onchange="toggleGroupSelection(${escapeAttr(itemIdsJson).replace(/'/g, '&#39;')}, event)"
+              aria-label="Select all ${group.items.length} shades">`
+    : '';
+  const dragAttrs = (showSelect || updateStocksActive)
+    ? ''
+    : `draggable="true"
+      ondragstart='handleWHGroupDragStart(event, ${JSON.stringify(warehouse)}, ${JSON.stringify(section)}, ${escapeAttr(itemIdsJson).replace(/'/g, "&#39;")})'
+      ondragend="handleWHDragEnd(event)"`;
+
+  return `
+    <details class="wh-group${someSelected ? ' wh-group-partial' : ''}${allSelected ? ' wh-group-selected' : ''}${updateStocksActive ? ' wh-group-update-mode' : ''}" ${updateStocksActive ? 'open' : ''} ${dragAttrs} title="${showSelect ? 'Tick to select all '+group.items.length+' shades' : (updateStocksActive ? 'Update each shade quantity below' : 'Drag to move all '+group.items.length+' shades to another section')}">
+      <summary class="wh-group-summary">
+        ${groupCheckbox}
+        <span class="wh-card-drag-handle wh-group-drag-handle" aria-hidden="true">⋮⋮</span>
+        ${photoBlock}
+        <div class="wh-group-name-block">
+          <div class="wh-group-base">${escapeHtml(group.base)}</div>
+          <div class="wh-group-meta">${group.items.length} shades · ${fmtNum(totalQty)} units in warehouse${warehouse === 'bs' && totalTx > 0 ? ` · ${fmtNum(totalTx)} moved to DayOne` : ''}${someSelected ? ` · <strong style="color:var(--lavender-deep);">${selectedInGroup} selected</strong>` : ''}</div>
+        </div>
+        <span class="wh-group-toggle">
+          <span class="wh-group-toggle-show">Click to see per shade</span>
+          <span class="wh-group-toggle-hide">Hide shades</span>
+        </span>
+      </summary>
+      <div class="wh-group-shades">${shadeCards}</div>
+    </details>`;
+}
+
+function renderWHCard(warehouse, section, item, opts) {
+  const insideGroup = !!(opts && opts.insideGroup);
   const editing = editingWH.has(item.id);
   const isBS = warehouse === 'bs';
   const qty  = +item.quantity || 0;
@@ -3618,16 +4908,36 @@ function renderWHCard(warehouse, section, item) {
         : `<span class="wh-card-photo-empty ${photoEditable ? '' : 'locked'}">${photoEditable ? '+' : '·'}</span>`}
     </div>`;
 
-  const body = editing
-    ? `<div class="wh-card-body">
+  // ----- Body: three modes (display / editing / stock-update) -----
+  let body;
+  if (editing) {
+    body = `<div class="wh-card-body">
         <label class="wh-card-sku" style="display:block;margin-bottom:2px;">SKU</label>
         <input type="text" data-wh="${escapeAttr(warehouse)}" data-wh-section="${escapeAttr(section)}" data-wh-id="${escapeAttr(item.id)}" data-wh-field="sku" value="${escapeAttr(item.sku || '')}" placeholder="e.g. FL-FS-01">
         <label class="wh-card-sku" style="display:block;margin-bottom:2px;margin-top:6px;">Product Name</label>
         <input type="text" data-wh="${escapeAttr(warehouse)}" data-wh-section="${escapeAttr(section)}" data-wh-id="${escapeAttr(item.id)}" data-wh-field="name" value="${escapeAttr(item.name || '')}" placeholder="Product name">
         <label class="wh-card-sku" style="display:block;margin-bottom:2px;margin-top:6px;">Warehouse Quantity</label>
         <input type="number" min="0" data-wh="${escapeAttr(warehouse)}" data-wh-section="${escapeAttr(section)}" data-wh-id="${escapeAttr(item.id)}" data-wh-field="quantity" value="${qty}" onclick="this.select()">
-      </div>`
-    : `<div class="wh-card-body">
+      </div>`;
+  } else if (updateStocksActive) {
+    // Slim daily-update layout — sku + name on the left, big qty input on the right.
+    body = `<div class="wh-card-body wh-card-body-stock-update">
+        <div class="wh-card-sku">${escapeHtml(item.sku || '— No SKU —')}</div>
+        <div class="wh-card-name">${escapeHtml(item.name || '(Unnamed item)')}</div>
+      </div>
+      <div class="wh-stock-update-input">
+        <label class="wh-stock-update-label">${isBS ? 'BS Qty' : 'DayOne Qty'}</label>
+        <input type="number" min="0"
+               data-wh="${escapeAttr(warehouse)}"
+               data-wh-section="${escapeAttr(section)}"
+               data-wh-id="${escapeAttr(item.id)}"
+               data-wh-field="quantity"
+               value="${qty}"
+               onclick="this.select()"
+               onfocus="this.select()">
+      </div>`;
+  } else {
+    body = `<div class="wh-card-body">
         <div class="wh-card-sku">${escapeHtml(item.sku || '— No SKU —')}</div>
         <div class="wh-card-name">${escapeHtml(item.name || '(Unnamed item)')}</div>
         <div class="wh-card-qty">
@@ -3635,10 +4945,11 @@ function renderWHCard(warehouse, section, item) {
           <span class="wh-card-qty-value">${fmtNum(qty)}</span>
         </div>
       </div>`;
+  }
 
-  // Transfer block (BS only)
+  // Transfer block (BS only) — suppressed while updating stocks so the row stays slim.
   let transferBlock = '';
-  if (isBS) {
+  if (isBS && !updateStocksActive) {
     transferBlock = `
       <div class="wh-transfer-block">
         <div class="wh-transfer-line">
@@ -3660,12 +4971,167 @@ function renderWHCard(warehouse, section, item) {
         <button class="btn-edit editing" onclick="exitEditWH('${escapeAttr(warehouse)}','${escapeAttr(section)}','${escapeAttr(item.id)}')">Done</button>
         <button class="row-delete" onclick="deleteWHItem('${escapeAttr(warehouse)}','${escapeAttr(section)}','${escapeAttr(item.id)}')" title="Delete">${trashIconSVG()}</button>
        </div>`
-    : `<div class="wh-card-actions">
+    : (updateStocksActive
+        ? ''
+        : `<div class="wh-card-actions">
         <button class="btn-edit" onclick="enterEditWH('${escapeAttr(warehouse)}','${escapeAttr(section)}','${escapeAttr(item.id)}')">Edit</button>
         <button class="row-delete" onclick="deleteWHItem('${escapeAttr(warehouse)}','${escapeAttr(section)}','${escapeAttr(item.id)}')" title="Delete">${trashIconSVG()}</button>
-       </div>`;
+       </div>`);
 
-  return `<div class="wh-card ${editing ? 'editing' : ''}">${photo}${body}${transferBlock}${actions}</div>`;
+  // When this card is a shade inside a group, the GROUP is the draggable unit
+  // (so shades move together). Suppress the per-card drag attributes and the
+  // visible handle in that case.
+  const draggable = !editing && !insideGroup && !bulkSelectActive && !updateStocksActive;
+  const showSelect = bulkSelectActive && isBS && !editing;
+  const isSelected = showSelect && bulkSelectedIds.has(item.id);
+  const checkbox = showSelect
+    ? `<input type="checkbox" class="wh-bulk-checkbox" ${isSelected ? 'checked' : ''}
+              onclick="event.stopPropagation()"
+              onchange="toggleItemSelection('${escapeAttr(item.id)}', event)"
+              aria-label="Select for bulk move">`
+    : '';
+  return `<div class="wh-card ${editing ? 'editing' : ''}${insideGroup ? ' wh-card-in-group' : ''}${isSelected ? ' wh-card-selected' : ''}"
+    ${draggable ? `draggable="true"
+      ondragstart="handleWHDragStart(event, '${escapeAttr(warehouse)}', '${escapeAttr(section)}', '${escapeAttr(item.id)}')"
+      ondragend="handleWHDragEnd(event)"` : ''}
+    ${showSelect ? `onclick="toggleItemSelection('${escapeAttr(item.id)}', event)"` : ''}
+    title="${draggable ? 'Drag to move to another section' : (showSelect ? 'Click anywhere to select' : '')}">${checkbox}${draggable ? '<span class="wh-card-drag-handle" aria-hidden="true">⋮⋮</span>' : ''}${photo}${body}${transferBlock}${actions}</div>`;
+}
+
+/* ============================================================
+   Warehouse drag-and-drop between sections (within same warehouse)
+   Each row is draggable; each section is a drop zone. Dropping a row
+   on a different section's drop zone moves the item into that section.
+   Cross-warehouse moves (BS ↔ DayOne) are handled by the existing
+   "Move to DayOne" button, not by drag-drop.
+   ============================================================ */
+let _whDragPayload = null; // backup payload in case dataTransfer is empty
+
+function handleWHDragStart(e, warehouse, section, itemId) {
+  _whDragPayload = { warehouse, section, itemId };
+  try {
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('application/x-wh-item', JSON.stringify(_whDragPayload));
+    // Required for Firefox
+    e.dataTransfer.setData('text/plain', itemId);
+  } catch (_) {}
+  if (e.currentTarget && e.currentTarget.classList) {
+    e.currentTarget.classList.add('dragging');
+  }
+  // Don't let this bubble up to a parent <details> that's also draggable.
+  e.stopPropagation();
+}
+
+function handleWHGroupDragStart(e, warehouse, section, itemIdsJson) {
+  let itemIds = [];
+  try {
+    itemIds = typeof itemIdsJson === 'string' ? JSON.parse(itemIdsJson) : itemIdsJson;
+  } catch (_) {}
+  if (!Array.isArray(itemIds) || itemIds.length === 0) return;
+  _whDragPayload = { warehouse, section, itemIds };
+  try {
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('application/x-wh-item', JSON.stringify(_whDragPayload));
+    e.dataTransfer.setData('text/plain', itemIds.join(','));
+  } catch (_) {}
+  if (e.currentTarget && e.currentTarget.classList) {
+    e.currentTarget.classList.add('dragging');
+  }
+}
+
+function handleWHDragEnd(e) {
+  if (e.currentTarget && e.currentTarget.classList) {
+    e.currentTarget.classList.remove('dragging');
+  }
+  // Clean up any leftover drag-over classes
+  document.querySelectorAll('.wh-section-drop.drag-over')
+    .forEach(el => el.classList.remove('drag-over'));
+  _whDragPayload = null;
+}
+
+function handleWHDragOver(e) {
+  // Calling preventDefault here is what makes the zone droppable.
+  e.preventDefault();
+  if (e.dataTransfer) e.dataTransfer.dropEffect = 'move';
+  const zone = e.currentTarget;
+  if (zone && !zone.classList.contains('drag-over')) {
+    zone.classList.add('drag-over');
+  }
+}
+
+function handleWHDragLeave(e) {
+  // dragleave fires when crossing child elements too — only clear when we've
+  // actually exited the drop zone's bounding box.
+  const zone = e.currentTarget;
+  if (!zone) return;
+  const r = zone.getBoundingClientRect();
+  const x = e.clientX, y = e.clientY;
+  if (x < r.left || x >= r.right || y < r.top || y >= r.bottom) {
+    zone.classList.remove('drag-over');
+  }
+}
+
+function handleWHDrop(e, targetWarehouse, targetSection) {
+  e.preventDefault();
+  const zone = e.currentTarget;
+  if (zone) zone.classList.remove('drag-over');
+  // Prefer the structured payload; fall back to the module-level backup.
+  let payload = _whDragPayload;
+  try {
+    const raw = e.dataTransfer && e.dataTransfer.getData('application/x-wh-item');
+    if (raw) payload = JSON.parse(raw);
+  } catch (_) {}
+  if (!payload) return;
+  const { warehouse, section } = payload;
+  _whDragPayload = null;
+  if (warehouse !== targetWarehouse) {
+    toast('Drag works within the same warehouse · use "Move to DayOne" for cross-warehouse');
+    return;
+  }
+  if (section === targetSection) return; // dropped back into same bucket — no-op
+  if (Array.isArray(payload.itemIds) && payload.itemIds.length > 0) {
+    moveWHGroupBetweenSections(warehouse, section, payload.itemIds, targetSection);
+  } else if (payload.itemId) {
+    moveWHItemBetweenSections(warehouse, section, payload.itemId, targetSection);
+  }
+}
+
+function moveWHItemBetweenSections(warehouse, fromSection, itemId, toSection) {
+  const wh = ensureWHWarehouse(warehouse);
+  const fromList = wh[fromSection];
+  if (!Array.isArray(fromList)) return;
+  const idx = fromList.findIndex(i => i && i.id === itemId);
+  if (idx < 0) return;
+  const [item] = fromList.splice(idx, 1);
+  if (!Array.isArray(wh[toSection])) wh[toSection] = [];
+  wh[toSection].unshift(item);
+  saveState();
+  render();
+  const labels = { customized: 'Customized', whitelabel: 'White Label', packaging: 'Packaging / Gift' };
+  toast(`Moved "${item.name || item.sku || 'item'}" → ${labels[toSection] || toSection}`);
+}
+
+function moveWHGroupBetweenSections(warehouse, fromSection, itemIds, toSection) {
+  const wh = ensureWHWarehouse(warehouse);
+  const fromList = wh[fromSection];
+  if (!Array.isArray(fromList)) return;
+  if (!Array.isArray(wh[toSection])) wh[toSection] = [];
+  // Preserve the order the items had in the source list when prepending to dest.
+  const idSet = new Set(itemIds);
+  const moved = [];
+  const remaining = [];
+  fromList.forEach(it => {
+    if (it && idSet.has(it.id)) moved.push(it); else remaining.push(it);
+  });
+  if (moved.length === 0) return;
+  wh[fromSection] = remaining;
+  // unshift in reverse so the original order is preserved at the top
+  for (let i = moved.length - 1; i >= 0; i--) wh[toSection].unshift(moved[i]);
+  saveState();
+  render();
+  const labels = { customized: 'Customized', whitelabel: 'White Label', packaging: 'Packaging / Gift' };
+  const baseName = parseShadeFromName((moved[0] && moved[0].name) || '').base || 'group';
+  toast(`Moved ${moved.length} shades of "${baseName}" → ${labels[toSection] || toSection}`);
 }
 
 function addWHItem(warehouse, section) {
@@ -3789,6 +5255,170 @@ function confirmTransfer() {
   toast(`Moved ${fmtNum(move)} unit${move === 1 ? '' : 's'} to DayOne`);
 }
 
+/* ============================================================
+   Bulk selection — let the user check many BS items at once
+   and move them all to DayOne in a single action.
+   ============================================================ */
+function toggleBulkSelect() {
+  bulkSelectActive = !bulkSelectActive;
+  if (!bulkSelectActive) bulkSelectedIds.clear();
+  render();
+}
+
+function exitBulkSelect() {
+  bulkSelectActive = false;
+  bulkSelectedIds.clear();
+  render();
+}
+
+function toggleItemSelection(id, event) {
+  if (event) event.stopPropagation();
+  if (bulkSelectedIds.has(id)) bulkSelectedIds.delete(id);
+  else bulkSelectedIds.add(id);
+  render();
+}
+
+function toggleGroupSelection(idsJson, event) {
+  if (event) event.stopPropagation();
+  let ids;
+  try { ids = typeof idsJson === 'string' ? JSON.parse(idsJson) : idsJson; } catch (_) { return; }
+  if (!Array.isArray(ids)) return;
+  const allSelected = ids.every(id => bulkSelectedIds.has(id));
+  if (allSelected) ids.forEach(id => bulkSelectedIds.delete(id));
+  else             ids.forEach(id => bulkSelectedIds.add(id));
+  render();
+}
+
+function bulkSelectAllInBS() {
+  const wh = ensureWHWarehouse('bs');
+  for (const section of ['customized','whitelabel','packaging']) {
+    for (const item of (wh[section] || [])) {
+      if ((+item.quantity || 0) > 0) bulkSelectedIds.add(item.id);
+    }
+  }
+  render();
+}
+
+function bulkClearSelection() {
+  bulkSelectedIds.clear();
+  render();
+}
+
+function bulkMoveToDayOne() {
+  if (bulkSelectedIds.size === 0) { toast('No items selected'); return; }
+  // Collect the actual items + their containing section. Skip zero-qty rows.
+  const wh = ensureWHWarehouse('bs');
+  const toTransfer = [];
+  for (const section of ['customized','whitelabel','packaging']) {
+    for (const item of (wh[section] || [])) {
+      if (bulkSelectedIds.has(item.id) && (+item.quantity || 0) > 0) {
+        toTransfer.push({ section, item });
+      }
+    }
+  }
+  if (toTransfer.length === 0) {
+    toast('Selected items have no stock left to move');
+    return;
+  }
+  const totalUnits = toTransfer.reduce((s, x) => s + (+x.item.quantity || 0), 0);
+  const proceed = confirm(`Move ${toTransfer.length} item${toTransfer.length === 1 ? '' : 's'} (${fmtNum(totalUnits)} units total) from BS to DayOne?\n\nThis transfers the FULL remaining BS quantity for each selected item.`);
+  if (!proceed) return;
+
+  for (const { section, item } of toTransfer) {
+    const qty = +item.quantity || 0;
+    if (qty <= 0) continue;
+    item.quantity = 0;
+    item.transferredToDayOne = (+item.transferredToDayOne || 0) + qty;
+    let doItem = findWHItemBySku('dayone', section, item.sku);
+    if (!doItem) {
+      doItem = {
+        id: uid('wh_'),
+        sku: item.sku || '',
+        name: item.name || '',
+        photo: item.photo || '',
+        quantity: 0,
+        transferredToDayOne: 0
+      };
+      ensureWHWarehouse('dayone')[section].unshift(doItem);
+    } else {
+      if (!doItem.photo && item.photo) doItem.photo = item.photo;
+      if (!doItem.name && item.name)   doItem.name  = item.name;
+    }
+    doItem.quantity = (+doItem.quantity || 0) + qty;
+  }
+
+  bulkSelectedIds.clear();
+  bulkSelectActive = false;
+  saveState();
+  render();
+  toast(`Moved ${toTransfer.length} item${toTransfer.length === 1 ? '' : 's'} (${fmtNum(totalUnits)} units) to DayOne`);
+}
+
+/* ============================================================
+   Daily stock update mode — slim per-row qty inputs.
+   ============================================================ */
+function toggleUpdateStocks() {
+  updateStocksActive = !updateStocksActive;
+  if (updateStocksActive) {
+    // Exit bulk-select if it was on — both modes shouldn't run together.
+    bulkSelectActive = false;
+    bulkSelectedIds.clear();
+  } else {
+    toast('Stock counts saved');
+  }
+  render();
+}
+
+function renderUpdateStocksBar(warehouse) {
+  const wh = ensureWHWarehouse(warehouse);
+  let itemCount = 0, total = 0;
+  for (const section of ['customized','whitelabel','packaging']) {
+    for (const item of (wh[section] || [])) {
+      itemCount++;
+      total += (+item.quantity || 0);
+    }
+  }
+  const whLabel = warehouse === 'bs' ? 'BS' : 'DayOne';
+  return `
+    <div class="bulk-action-bar update-stocks-bar">
+      <span class="bulk-count">
+        <strong>📝 Update mode</strong>
+        · ${itemCount} item${itemCount === 1 ? '' : 's'} in ${whLabel}
+        · ${fmtNum(total)} total units
+      </span>
+      <div class="bulk-actions">
+        <button class="btn-bulk-primary" onclick="toggleUpdateStocks()">✓ Done</button>
+      </div>
+    </div>`;
+}
+
+function renderBulkActionBar() {
+  // Compute total stock currently selected so the user sees what they're about to move.
+  const wh = ensureWHWarehouse('bs');
+  let totalUnits = 0, withStock = 0, total = bulkSelectedIds.size;
+  for (const section of ['customized','whitelabel','packaging']) {
+    for (const item of (wh[section] || [])) {
+      if (bulkSelectedIds.has(item.id)) {
+        const q = +item.quantity || 0;
+        if (q > 0) { withStock++; totalUnits += q; }
+      }
+    }
+  }
+  return `
+    <div class="bulk-action-bar">
+      <span class="bulk-count">
+        <strong>${total}</strong> item${total === 1 ? '' : 's'} selected
+        ${total > 0 ? ` · ${fmtNum(totalUnits)} units` : ''}
+      </span>
+      <div class="bulk-actions">
+        <button class="btn-bulk-secondary" onclick="bulkSelectAllInBS()" title="Select every BS item with stock">Select All</button>
+        ${total > 0 ? `<button class="btn-bulk-secondary" onclick="bulkClearSelection()">Clear</button>` : ''}
+        <button class="btn-bulk-primary" ${withStock === 0 ? 'disabled' : ''} onclick="bulkMoveToDayOne()">🚚 Move to DayOne</button>
+        <button class="btn-bulk-close" onclick="exitBulkSelect()" title="Exit selection mode">✕</button>
+      </div>
+    </div>`;
+}
+
 /* ---- Receive to Warehouse (from PO line item) ----
    A line item can be shipped to warehouse in multiple instalments. We track
    the running total in `cumulativeSent` and a list of individual `shipments`
@@ -3848,7 +5478,7 @@ function openReceiveModal(poId, liId) {
   let metaText = `Up to ${fmtNum(ready)} unit${ready === 1 ? '' : 's'} ready · ${fmtNum(completed)} completed`;
   if (sent > 0) metaText += ` · ${fmtNum(sent)} already sent`;
   document.getElementById('receive-qty-meta').textContent = metaText;
-  document.getElementById('receive-warehouse').value = 'bs';
+  document.getElementById('receive-warehouse').value = 'dayone';
   document.getElementById('receive-section').value = 'whitelabel';
   document.getElementById('receive-overlay').style.display = 'flex';
   setTimeout(() => { qtyInput.focus(); qtyInput.select(); }, 30);
@@ -3893,8 +5523,10 @@ function confirmReceive() {
     };
     state.warehouseInventory[warehouse][section].unshift(card);
   } else {
-    if (!card.photo && li.photo) card.photo = li.photo;
-    if (!card.name  && li.name)  card.name  = li.name;
+    // Always propagate the latest PO line-item photo and name to the
+    // warehouse card so the warehouse view stays in sync with Production.
+    if (li.photo) card.photo = li.photo;
+    if (li.name)  card.name  = li.name;
   }
   card.quantity = (+card.quantity || 0) + move;
 
@@ -3934,6 +5566,12 @@ function confirmReceive() {
 function renderDashboard() {
   const products = getProductRollup();
   const adsDays = state.salesViewDays || 3;
+  const hiddenSkus = Array.isArray(state.dashboardHiddenSkus) ? state.dashboardHiddenSkus : [];
+  const hiddenSet  = new Set(hiddenSkus);
+  // Apply the user's "hide from dashboard" list. Items still exist in their
+  // source modules (warehouse, sales, production) — we just don't display
+  // them here. "Show All" restores everything.
+  const visibleProducts = products.filter(p => !hiddenSet.has(p.sku));
 
   // If no production/sales data, show empty state
   if (products.length === 0) {
@@ -3957,17 +5595,17 @@ function renderDashboard() {
   }
 
   const stats = {
-    total: products.length,
-    healthy: products.filter(p => p.status === 'healthy').length,
-    reorder: products.filter(p => p.status === 'reorder').length,
-    critical: products.filter(p => p.status === 'critical' || p.status === 'out').length,
-    inProdUnits: products.reduce((s, p) => s + p.inProductionQty, 0)
+    total: visibleProducts.length,
+    healthy: visibleProducts.filter(p => p.status === 'healthy').length,
+    reorder: visibleProducts.filter(p => p.status === 'reorder').length,
+    critical: visibleProducts.filter(p => p.status === 'critical' || p.status === 'out').length,
+    inProdUnits: visibleProducts.reduce((s, p) => s + p.inProductionQty, 0)
   };
-  const order = { critical: 0, out: 1, reorder: 2, healthy: 3 };
-  products.sort((a, b) => order[a.status] - order[b.status] || a.daysImmediate - b.daysImmediate);
+  const statusOrder = { critical: 0, out: 1, reorder: 2, healthy: 3 };
+  visibleProducts.sort((a, b) => statusOrder[a.status] - statusOrder[b.status] || a.daysImmediate - b.daysImmediate);
 
   let rows = '';
-  products.forEach(p => {
+  visibleProducts.forEach(p => {
     const barPct = Math.min(100, Math.max(2, (p.daysTotal / 180) * 100));
     const barColor = p.status === 'healthy' ? 'var(--status-healthy)'
                    : p.status === 'reorder' ? 'var(--status-reorder)'
@@ -3997,12 +5635,13 @@ function renderDashboard() {
         </td>
         <td class="numeric" data-label="In Production">${inProdCell}</td>
         <td class="numeric" data-label="ADS ${adsDays}d"><strong style="color:var(--ink)">${p.adsN.toFixed(1)}</strong></td>
-        <td class="days-cell" data-label="Days of Cover">
-          ${renderDaysOfCoverBlock(p.daysImmediate, p.daysTotal, p.inProductionQty, p.soonestPromise, p.batches)}
+        <td class="days-cell" data-label="Days of Cover" data-sort-value="${isFinite(p.daysImmediate) ? p.daysImmediate : 99999}">
+          ${renderDaysOfCoverBlock(p.daysImmediate, p.daysTotal, p.inProductionQty, p.soonestPromise, p.batches, p.adsN)}
           <div class="days-bar"><div class="days-bar-fill" style="width:${barPct}%; background:${barColor};"></div></div>
         </td>
-        <td data-label="Status"><span class="status status-${p.status}">${statusLabel}</span></td>
+        <td data-label="Status" data-sort-value="${statusOrder[p.status]}"><span class="status status-${p.status}">${statusLabel}</span></td>
         <td data-label="Action">${actionBtn}</td>
+        ${dashboardEditActive ? `<td data-label="" class="dashboard-row-delete-cell"><button class="dashboard-row-delete" title="Hide this row from the dashboard" onclick="hideDashboardRow('${escapeAttr(p.sku)}')">✕</button></td>` : ''}
       </tr>`;
   });
 
@@ -4016,7 +5655,19 @@ function renderDashboard() {
 
   return `
     <div class="action-bar">
+      <button class="btn" onclick="importDailySalesData()">📥 Import Daily Sales Data</button>
       <span class="last-updated">${getLastUpdated()}</span>
+      <div style="margin-left:auto; display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+        ${hiddenSkus.length > 0 ? `
+          <span class="dashboard-hidden-badge" title="${escapeAttr(hiddenSkus.join(', '))}">
+            ${hiddenSkus.length} hidden
+          </span>
+          <button class="btn btn-ghost" onclick="unhideAllDashboardRows()">Show All</button>
+        ` : ''}
+        <button class="btn ${dashboardEditActive ? 'btn-primary' : ''}" onclick="toggleDashboardEdit()">
+          ${dashboardEditActive ? '✓ Done' : '✏️ Edit'}
+        </button>
+      </div>
     </div>
     <div class="page-header">
       <h1 class="page-title">📊 Analytics Dashboard</h1>
@@ -4029,17 +5680,64 @@ function renderDashboard() {
       <div class="summary-card alert"><span class="summary-label">Critical</span><span class="summary-value">${stats.critical}</span><span class="summary-sub">may stock out before arrival</span></div>
       <div class="summary-card pipeline"><span class="summary-label">In Production</span><span class="summary-value">${fmtNum(stats.inProdUnits)}</span><span class="summary-sub">units being produced</span></div>
     </div>
+    ${state.adsReport ? `
+    <div class="section-header" style="margin-top: 32px;">
+      <h2 class="section-title">📈 Average Daily Sales (Imported Data)</h2>
+      <span class="section-meta">BS + DayOne Combined · ${state.dailySalesData?.dateRange ? `${state.dailySalesData.dateRange.start} to ${state.dailySalesData.dateRange.end}` : ''}</span>
+    </div>
+    <div class="table-wrap">
+      <table class="sortable-table">
+        <thead><tr>
+          <th>Product</th>
+          <th>SKU</th>
+          <th class="numeric">ADS 3-day</th>
+          <th class="numeric">ADS 7-day</th>
+          <th class="numeric">ADS 14-day</th>
+          <th class="numeric">ADS 30-day</th>
+          <th class="numeric">Days Tracked</th>
+        </tr></thead>
+        <tbody>
+          ${state.adsReport.map(p => `
+            <tr>
+              <td>${escapeHtml(p.name)}</td>
+              <td><span class="sku-tag">${escapeHtml(p.sku)}</span></td>
+              <td class="numeric"><strong>${p.ads3}</strong></td>
+              <td class="numeric"><strong>${p.ads7}</strong></td>
+              <td class="numeric"><strong style="color:var(--lavender-deep)">${p.ads14}</strong></td>
+              <td class="numeric">${p.ads30}</td>
+              <td class="numeric" style="color:var(--ink-mute)">${p.totalDays}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+    <div style="background: var(--lavender-pale); border-left: 3px solid var(--lavender-deep); padding: 16px 20px; margin: 20px 0; border-radius: var(--radius);">
+      <div style="display: flex; align-items: flex-start; gap: 12px;">
+        <div style="font-size: 20px; line-height: 1;">📦</div>
+        <div>
+          <div style="font-weight: 600; font-size: 13px; color: var(--ink); margin-bottom: 6px;">Restock Reminder</div>
+          <div style="font-size: 12px; color: var(--ink-soft); line-height: 1.5;">
+            <strong>When inventory arrives</strong> (supplier shipments, inter-warehouse transfers), update your Excel's <strong>Restock column</strong> with the quantity received, then re-import to keep ADS accurate.
+            <div style="margin-top: 8px; color: var(--ink-mute); font-size: 11px;">
+              💡 <strong>In-transit inventory:</strong> If stock shows as "0" but is still in transit, add it to Restock column on the day it physically arrives at the warehouse.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    ` : ''}
     <div class="section-header" style="display:flex; align-items:center; flex-wrap:wrap; gap:12px;">
       <h2 class="section-title">Live Inventory</h2>
       <span class="section-meta">Sorted by urgency · ADS ${adsDays}-day window</span>
       ${adsToggle}
     </div>
     <div class="table-wrap">
-      <table class="dashboard-table">
+      <table class="dashboard-table sortable-table">
         <thead><tr>
           <th>Product</th><th class="numeric">Ready Stock</th><th class="numeric">In Production</th>
           <th class="numeric">ADS ${adsDays}d</th>
-          <th>Days of Cover</th><th>Status</th><th>Action</th>
+          <th>Days of Cover</th><th>Status</th><th class="no-sort">Action</th>
+          ${dashboardEditActive ? '<th class="no-sort" style="width:48px;">&nbsp;</th>' : ''}
         </tr></thead>
         <tbody>${rows}</tbody>
       </table>
@@ -4047,8 +5745,130 @@ function renderDashboard() {
 }
 
 /* ============================================================
+   Analytics dashboard — edit / hide rows
+   ============================================================ */
+function toggleDashboardEdit() {
+  dashboardEditActive = !dashboardEditActive;
+  render();
+}
+
+function hideDashboardRow(sku) {
+  if (!sku) return;
+  if (!Array.isArray(state.dashboardHiddenSkus)) state.dashboardHiddenSkus = [];
+  if (state.dashboardHiddenSkus.includes(sku)) return;
+  state.dashboardHiddenSkus.push(sku);
+  saveState();
+  render();
+}
+
+function unhideAllDashboardRows() {
+  const hidden = state.dashboardHiddenSkus || [];
+  if (hidden.length === 0) return;
+  if (!confirm(`Show all ${hidden.length} hidden row${hidden.length === 1 ? '' : 's'} on the dashboard again?`)) return;
+  state.dashboardHiddenSkus = [];
+  saveState();
+  render();
+  toast(`Restored ${hidden.length} hidden row${hidden.length === 1 ? '' : 's'}`);
+}
+
+function unhideOneDashboardRow(sku) {
+  if (!Array.isArray(state.dashboardHiddenSkus)) return;
+  state.dashboardHiddenSkus = state.dashboardHiddenSkus.filter(s => s !== sku);
+  saveState();
+  render();
+}
+
+/* ============================================================
    AVERAGE DAILY SALES
    ============================================================ */
+/* ============================================================
+   Sales-spike detection
+   A "spike" = a day with units sold >= SPIKE_THRESHOLD × the
+   average of the prior 7 days (non-zero days only, min 3).
+   Spikes are detected per-SKU across the full 30-day history and
+   surfaced two ways: (1) an alert banner on top of the Sales view
+   listing recent spikes, (2) a ⚡ badge on the corresponding cell.
+   ============================================================ */
+const SPIKE_THRESHOLD = 2.0;        // 2× baseline counts as a spike
+const SPIKE_BASELINE_WINDOW = 7;    // days of history used as baseline
+const SPIKE_MIN_BASELINE_DAYS = 3;  // need this many non-zero baseline days
+const SPIKE_ALERT_WINDOW_DAYS = 14; // only surface spikes from last N days
+
+function detectSpikes(values) {
+  if (!Array.isArray(values) || values.length === 0) return [];
+  const out = [];
+  for (let i = 0; i < values.length; i++) {
+    const v = +values[i] || 0;
+    if (v <= 0) continue;
+    const baseSlice = [];
+    for (let j = i + 1; j < Math.min(values.length, i + 1 + SPIKE_BASELINE_WINDOW); j++) {
+      const bv = +values[j] || 0;
+      if (bv > 0) baseSlice.push(bv);
+    }
+    if (baseSlice.length < SPIKE_MIN_BASELINE_DAYS) continue;
+    const baseline = baseSlice.reduce((s, x) => s + x, 0) / baseSlice.length;
+    if (baseline > 0 && v / baseline >= SPIKE_THRESHOLD) {
+      out.push({ dayIndex: i, value: v, baseline, multiplier: v / baseline });
+    }
+  }
+  return out;
+}
+
+function getRecentSpikes() {
+  const all = [];
+  (state.sales || []).forEach(s => {
+    if (!s.values || !s.values.length) return;
+    const sku  = String(s.sku || '').trim();
+    const name = String(s.name || '').trim() || sku;
+    detectSpikes(s.values).forEach(spike => {
+      if (spike.dayIndex < SPIKE_ALERT_WINDOW_DAYS) {
+        all.push({ sku, name, ...spike });
+      }
+    });
+  });
+  // Newest first, then biggest multiplier
+  all.sort((a, b) => a.dayIndex - b.dayIndex || b.multiplier - a.multiplier);
+  return all;
+}
+
+function renderSpikeAlert() {
+  const spikes = getRecentSpikes();
+  if (spikes.length === 0) return '';
+  const anchor = parseDate(state.salesAnchorDate || todayISO()) || new Date();
+  const dateForIndex = (i) => {
+    const d = new Date(anchor);
+    d.setDate(d.getDate() - i);
+    return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short' });
+  };
+  const rows = spikes.map(s => {
+    const critical = s.multiplier >= 10; // 10× or more gets the bigger warning
+    return `
+    <div class="spike-row${critical ? ' spike-row-critical' : ''}">
+      <div class="spike-row-head">
+        <span class="spike-product">${critical ? '⚠ ' : ''}${escapeHtml(s.name)}</span>
+        <span class="spike-mult-pill">${s.multiplier.toFixed(1)}× normal</span>
+      </div>
+      <div class="spike-row-body">
+        <strong>${fmtNum(s.value)} units</strong> on <strong>${escapeHtml(dateForIndex(s.dayIndex))}</strong> &nbsp;<span class="spike-baseline">vs 7-day average of ${fmtNum(Math.round(s.baseline))}/day</span>
+      </div>
+    </div>`;
+  }).join('');
+  const countLabel = `${spikes.length} ${spikes.length === 1 ? 'spike' : 'spikes'} in last ${SPIKE_ALERT_WINDOW_DAYS} days`;
+  return `
+    <details class="spike-alert">
+      <summary class="spike-alert-summary">
+        <span class="spike-alert-icon">⚡</span>
+        <span class="spike-alert-title">Sales Spike Alert</span>
+        <span class="spike-alert-count">${escapeHtml(countLabel)}</span>
+        <span class="spike-alert-arrow">▾</span>
+      </summary>
+      <div class="spike-alert-body">
+        <div class="spike-help">A day is flagged when sales reach ${SPIKE_THRESHOLD}× the average of the prior ${SPIKE_BASELINE_WINDOW} non-zero days. Investigate cause: viral content, promo, restock event, or data-entry error.</div>
+        ${rows}
+      </div>
+    </details>`;
+}
+
 function renderSales() {
   const has = state.sales.length > 0;
   const viewDays = state.salesViewDays || 3;
@@ -4078,12 +5898,20 @@ function renderSales() {
         { label: 'Try Sample', action: 'loadSampleAll()', ghost: true }
       ]);
   } else {
+    // Default state: collapsed. Users who explicitly expand stay expanded
+    // until they collapse again; new users land on the cleaner ADS-focused view.
+    const daysCollapsed = state.salesDaysCollapsed !== false;
     const dayCols = [];
     for (let i = 0; i < viewDays; i++) dayCols.push({ offset: i, date: addDaysISO(anchor, -i) });
-    const headerCells = dayCols.map(c => {
-      const { num, mon } = fmtDayHeader(c.date);
-      return `<th class="numeric date-col"><span class="day-num">${num}</span><span class="day-month">${mon}</span></th>`;
-    }).join('');
+    // When collapsed, the day columns are omitted entirely (no placeholder).
+    // The expand/collapse toggle lives on the "Average Daily Sales" header.
+    const headerCells = daysCollapsed
+      ? ''
+      : dayCols.map(c => {
+          const { num, mon } = fmtDayHeader(c.date);
+          return `<th class="numeric date-col"><span class="day-num">${num}</span><span class="day-month">${mon}</span></th>`;
+        }).join('');
+    const adsToggleBtn = `<button class="days-toggle-btn" onclick="event.stopPropagation(); toggleSalesDaysCollapsed()" title="${daysCollapsed ? 'Click to show' : 'Click to hide'} day columns">${daysCollapsed ? '▶' : '◀'}</button>`;
     // Build lookups: combined BS+DayOne stock by SKU AND in-production qty/promise by SKU
     const stockBySku = new Map();
     const wh = state.warehouseInventory || {};
@@ -4100,15 +5928,15 @@ function renderSales() {
     // In-production lookup
     const prodBySku = new Map(); // sku → { qty, soonestPromise, batches }
     (state.inProduction || []).forEach(po => {
-      const promise = parseDate(po.promiseDate);
       (po.lineItems || []).forEach(li => {
         if (li.receivedToWarehouse) return; // already in warehouse
         const k = String(li.sku || '').trim();
         if (!k) return;
         const entry = prodBySku.get(k) || { qty: 0, soonestPromise: null, batches: [] };
         entry.qty += +li.quantity || 0;
-        if (promise && (!entry.soonestPromise || promise < entry.soonestPromise)) {
-          entry.soonestPromise = promise;
+        const arrival = getBatchArrival(po, li);
+        if (arrival && (!entry.soonestPromise || arrival < entry.soonestPromise)) {
+          entry.soonestPromise = arrival;
         }
         entry.batches.push({ po, li });
         prodBySku.set(k, entry);
@@ -4116,12 +5944,33 @@ function renderSales() {
     });
 
     const rows = state.sales.map(s => {
-      const cells = dayCols.map(c =>
-        `<td class="numeric" data-label="${dayLabel(c.date)}">
-           <input type="number" class="sales-edit" data-sku="${escapeAttr(s.sku)}" data-day="${c.offset}"
-                  value="${s.values[c.offset] || 0}" onclick="this.select()">
-         </td>`
-      ).join('');
+      const spikes = detectSpikes(s.values);
+      const spikeByDay = new Map(spikes.map(sp => [sp.dayIndex, sp]));
+      const restocksArr = Array.isArray(s.restocks) ? s.restocks : [];
+      let cells;
+      if (daysCollapsed) {
+        // No day cells at all when collapsed — the row goes straight from
+        // Product to Average Daily Sales.
+        cells = '';
+      } else {
+        cells = dayCols.map(c => {
+          const spike = spikeByDay.get(c.offset);
+          const spikeBadge = spike
+            ? `<span class="spike-badge" title="${spike.multiplier.toFixed(1)}× the prior 7-day baseline of ${fmtNum(Math.round(spike.baseline))}/day · likely worth investigating">⚡</span>`
+            : '';
+          const salesVal = +s.values[c.offset] || 0;
+          const restock  = +restocksArr[c.offset] || 0;
+          const cellText = restock > 0 ? `${salesVal}+${restock}` : String(salesVal);
+          const restockBadge = restock > 0
+            ? `<span class="restock-badge" title="Restock: +${fmtNum(restock)} units · doesn't affect ADS, just tracked here">📦 +${fmtNum(restock)}</span>`
+            : '';
+          return `<td class="numeric date-col${spike ? ' spike-cell' : ''}${restock > 0 ? ' restock-cell' : ''}" data-label="${dayLabel(c.date)}">
+             ${spikeBadge}${restockBadge}<input type="text" inputmode="decimal" class="sales-edit" data-sku="${escapeAttr(s.sku)}" data-day="${c.offset}"
+                    value="${escapeAttr(cellText)}" onclick="this.select()"
+                    title="Type a number for daily sales, or N+M (e.g. 10+1000) to also record a restock — ADS counts only the sales side">
+           </td>`;
+        }).join('');
+      }
       let total = 0;
       for (let i = 0; i < viewDays; i++) total += +s.values[i] || 0;
       const ads = total / viewDays;
@@ -4139,7 +5988,7 @@ function renderSales() {
         const daysImmediate = stock / ads;
         const daysTotal     = (stock + prodQty) / ads;
         const isLow = daysImmediate < REORDER_DAYS;
-        docCell = `<td class="doc-cell ${isLow ? 'doc-low' : ''}" data-label="Days of Cover" title="${fmtNum(stock)} units in stock${prodQty > 0 ? ' · ' + fmtNum(prodQty) + ' in production' : ''} · ${ads.toFixed(1)} ADS">${renderDaysOfCoverBlock(daysImmediate, daysTotal, prodQty, prodEntry.soonestPromise, prodEntry.batches)}</td>`;
+        docCell = `<td class="doc-cell ${isLow ? 'doc-low' : ''}" data-label="Days of Cover" title="${fmtNum(stock)} units in stock${prodQty > 0 ? ' · ' + fmtNum(prodQty) + ' in production' : ''} · ${ads.toFixed(1)} ADS">${renderDaysOfCoverBlock(daysImmediate, daysTotal, prodQty, prodEntry.soonestPromise, prodEntry.batches, ads)}</td>`;
       }
       return `
         <tr>
@@ -4154,27 +6003,30 @@ function renderSales() {
     }).join('');
 
     body = `
+      ${renderSpikeAlert()}
       <div class="formula-hint">
         <div class="formula-hint-text">
           <strong>How ADS is calculated:</strong>
           &nbsp;<code>(sum of ${viewDays} days) ÷ ${viewDays} = ADS</code>
           &nbsp;·&nbsp; Days of Cover = combined BS + DayOne stock ÷ ADS
+          <br>
+          <strong>Restock notation:</strong>&nbsp;<code>10+1000</code> = sold 10, restocked 1000 (only the 10 counts toward ADS)
         </div>
         ${toggleHTML}
       </div>
       <div class="table-wrap">
-        <table class="sales-table">
+        <table class="sales-table sortable-table">
           <thead><tr>
             <th>Product</th>${headerCells}
-            <th class="numeric ads-cell">ADS ${viewDays}d</th>
+            <th class="numeric ads-cell">${adsToggleBtn}<span class="ads-header-label">Average Daily Sales (${viewDays}d)</span></th>
             <th class="numeric doc-cell">Days of Cover</th>
-            <th></th>
+            <th class="no-sort"></th>
           </tr></thead>
           <tbody>${rows}</tbody>
         </table>
       </div>
       <p style="margin-top: 16px; font-size: 12px; color: var(--ink-mute); letter-spacing: 0.04em;">
-        <strong>Tip:</strong> Click any cell to edit a day's units · Switch between 3, 5, 7, and 14-day views above · Days of Cover recalculates with the chosen window · Storage holds up to 30 days of history.
+        <strong>Tip:</strong> Click any cell to edit a day's units · Switch between 3, 5, 7, and 14-day views above · <strong>Type <code>N+M</code> (e.g. <code>10+1000</code>) on a restock day</strong> — the first number is the units sold, the second is the units restocked. ADS uses only the sales part, so restocks don't depress your average · Storage holds up to 30 days of history.
       </p>`;
   }
 
@@ -4189,11 +6041,6 @@ function renderSales() {
 
   return `
     <div class="action-bar">
-      ${buttons.map(b => {
-        const cls = b.primary ? 'btn btn-primary' : b.ghost ? 'btn btn-ghost' : 'btn';
-        const style = b.danger ? ' style="color:var(--status-reorder); border-color:var(--status-reorder);"' : '';
-        return `<button class="${cls}"${style} onclick="${b.action}">${escapeHtml(b.label)}</button>`;
-      }).join('')}
       <span class="last-updated">${getLastUpdated()}</span>
     </div>
     <div class="page-header">
@@ -4201,7 +6048,30 @@ function renderSales() {
       <p class="page-subtitle">Rolling daily sales · 3, 5, 7, or 14-day basis · ADS feeds Days-of-Cover calculations · stores up to 30 days of history</p>
     </div>
     ${anchorBar}
-    ${body}`;
+    ${body}
+    <div class="action-bar" style="margin-top: 32px; margin-bottom: 8px; flex-wrap: wrap;">
+      ${buttons.map(b => {
+        const cls = b.primary ? 'btn btn-primary' : b.ghost ? 'btn btn-ghost' : 'btn';
+        const style = b.danger ? ' style="color:var(--status-reorder); border-color:var(--status-reorder);"' : '';
+        return `<button class="${cls}"${style} onclick="${b.action}">${escapeHtml(b.label)}</button>`;
+      }).join('')}
+      ${has ? `<button id="sales-save-btn" class="btn btn-primary sales-save-btn${salesEditsPending ? ' has-pending' : ''}" onclick="saveAndRefreshSales()" title="Recalculate ADS and Days of Cover with your latest edits">💾 Update ADS &amp; Days of Cover</button>` : ''}
+    </div>`;
+}
+
+function saveAndRefreshSales() {
+  // Edits are already saved on each cell blur — this button's job is to
+  // re-render so the ADS / Days of Cover columns reflect the new numbers
+  // and the dashboard / reorder banner update too.
+  salesEditsPending = false;
+  render();
+  toast('ADS and Days of Cover refreshed');
+}
+
+function toggleSalesDaysCollapsed() {
+  state.salesDaysCollapsed = !state.salesDaysCollapsed;
+  saveState();
+  render();
 }
 function dayLabel(iso) {
   const d = parseDate(iso);
@@ -4402,7 +6272,9 @@ function renderPOCard(po, mode) {
       <div class="card-footer">
         <button class="footer-toggle ${isExpanded ? 'expanded' : ''}" onclick="togglePO('${escapeAttr(po.id)}')">
           <span class="chevron">▶</span>
-          ${itemCount} line item${itemCount===1?'':'s'} · ${fmtNum(totalUnits)} units · ${fmtPriceTotal(totalValue, currency)}
+          <span class="toggle-cta">${isExpanded ? 'Hide' : 'Click to see'} line items</span>
+          <span style="opacity:0.65; letter-spacing:0.04em;">·</span>
+          ${itemCount} item${itemCount===1?'':'s'} · ${fmtNum(totalUnits)} units · ${fmtPriceTotal(totalValue, currency)}
         </button>
         ${totalUnits > 0 ? `<span class="progress-pill ${fullyInspected ? 'complete' : ''}">${Math.round(inspectPct)}% inspected</span>` : ''}
       </div>
@@ -4498,11 +6370,6 @@ function renderLineItemsTable(po, editing, isCompleted) {
             ? `<div class="li-display" style="text-align:center; font-size:11px;">${li.actualProductionEndDate ? escapeHtml(fmtDateDisplay(li.actualProductionEndDate)) : '<span style="color:var(--ink-mute);">—</span>'}</div>`
             : `<input class="li-input" type="date" data-po-id="${escapeAttr(po.id)}" data-li-id="${escapeAttr(li.id)}" data-li-field="actualProductionEndDate" value="${escapeAttr(li.actualProductionEndDate || '')}" style="text-align:center;">`}
         </td>
-        <td class="numeric" data-label="Unit Price $">
-          ${!editing
-            ? `<div class="li-display numeric">${li.unitPriceUSD ? '$' + Number(li.unitPriceUSD).toLocaleString('en-GB', {minimumFractionDigits:2, maximumFractionDigits:2}) : '—'}</div>`
-            : `<input class="li-input" type="number" data-po-id="${escapeAttr(po.id)}" data-li-id="${escapeAttr(li.id)}" data-li-field="unitPriceUSD" value="${li.unitPriceUSD || ''}" min="0" step="0.01" placeholder="0.00">`}
-        </td>
         <td class="numeric" data-label="Unit Price ¥">
           ${!editing
             ? `<div class="li-display numeric">${li.unitPriceRMB ? '¥' + Number(li.unitPriceRMB).toLocaleString('en-GB', {minimumFractionDigits:2, maximumFractionDigits:2}) : '—'}</div>`
@@ -4518,19 +6385,19 @@ function renderLineItemsTable(po, editing, isCompleted) {
   }).join('');
 
   const emptyRow = po.lineItems.length === 0
-    ? `<tr><td colspan="10" style="text-align:center; padding:24px; color:var(--ink-mute); font-size:12px;">No line items. ${editing ? 'Click below to add one.' : 'Hit Edit to add line items.'}</td></tr>`
+    ? `<tr><td colspan="9" style="text-align:center; padding:24px; color:var(--ink-mute); font-size:12px;">No line items. ${editing ? 'Click below to add one.' : 'Hit Edit to add line items.'}</td></tr>`
     : '';
 
   return `
     <div class="items-wrap">
-      <table class="items-table">
+      <table class="items-table sortable-table">
         <thead><tr>
-          <th>Photo</th><th>SKU &amp; Product</th>
+          <th class="no-sort">Photo</th><th>SKU &amp; Product</th>
           <th class="numeric">Quantity</th><th class="numeric">Inspected</th>
           <th class="numeric">Units Completed</th>
           <th>Actual End</th>
-          <th class="numeric">Unit Price $</th><th class="numeric">Unit Price ¥ RMB</th>
-          <th></th><th></th>
+          <th class="numeric">Unit Price ¥ RMB</th>
+          <th class="no-sort"></th><th class="no-sort"></th>
         </tr></thead>
         <tbody>${rows}${emptyRow}</tbody>
       </table>
@@ -4730,13 +6597,24 @@ function attachInlineHandlers() {
     el.addEventListener('change', () => {
       const sku = el.dataset.sku;
       const day = +el.dataset.day;
-      const v = Math.max(0, +el.value || 0);
+      const { value, restock } = parseSalesValueWithRestock(el.value);
       const product = state.sales.find(s => s.sku === sku);
       if (product) {
         while (product.values.length < SALES_DAYS_MAX) product.values.push(0);
-        product.values[day] = v;
+        if (!Array.isArray(product.restocks)) product.restocks = [];
+        while (product.restocks.length < SALES_DAYS_MAX) product.restocks.push(0);
+        product.values[day]   = value;
+        product.restocks[day] = restock;
+        // Normalise what the user typed back into the canonical form so cells
+        // like "10 + 1000" become "10+1000" and "10+0" becomes "10".
+        el.value = restock > 0 ? `${value}+${restock}` : String(value);
         saveState();
       }
+      salesEditsPending = true;
+      const btn = document.getElementById('sales-save-btn');
+      if (btn) btn.classList.add('has-pending');
+      const body = document.querySelector('.sales-table tbody');
+      if (body) body.classList.add('has-pending-edits');
     });
   });
 
@@ -4911,6 +6789,11 @@ function togglePO(id) {
   else expandedPOs.add(id);
   render();
 }
+function toggleGroup(key) {
+  if (expandedGroups.has(key)) expandedGroups.delete(key);
+  else expandedGroups.add(key);
+  render();
+}
 function toggleSupplier(id) {
   if (expandedSuppliers.has(id)) expandedSuppliers.delete(id);
   else expandedSuppliers.add(id);
@@ -4932,14 +6815,83 @@ function markComplete(id) {
   if (!allInspected) {
     if (!confirm(`Only ${totalInspected.toLocaleString()} of ${totalUnits.toLocaleString()} units have been inspected. Mark this PO as complete anyway?`)) return;
   }
-  po.completedAt = new Date().toISOString();
+
+  // ---- Auto-send every line item's outstanding units to DayOne ----
+  // Section choice per SKU: if the SKU already lives in DayOne under one of
+  // the three sections, reuse that section to preserve the user's
+  // categorisation. Otherwise default to "customized" (the most common
+  // bucket for product-in-production batches).
+  ensureWHWarehouse('dayone');
+  const completedAtIso = new Date().toISOString();
+  let totalShipped = 0;
+  let itemsShipped = 0;
+  const sectionForSku = (sku) => {
+    const cleanSku = String(sku || '').trim();
+    if (!cleanSku) return 'customized';
+    for (const sec of WH_SECTION_KEYS) {
+      if (findWHItemBySku('dayone', sec, cleanSku)) return sec;
+    }
+    return 'customized';
+  };
+
+  po.lineItems.forEach(li => {
+    const qty = +li.quantity || 0;
+    if (qty <= 0) return;
+    // PO is being marked complete → treat every unit as completed.
+    if ((+li.unitsCompleted || 0) < qty) li.unitsCompleted = qty;
+    const already = liCumulativeSent(li);
+    const toSend  = Math.max(0, qty - already);
+    if (toSend <= 0) return;
+    const section = sectionForSku(li.sku);
+    // Find or create the DayOne card for this SKU/section
+    let card = findWHItemBySku('dayone', section, li.sku);
+    if (!card) {
+      card = {
+        id: uid('wh_'),
+        sku: li.sku || '',
+        name: li.name || '',
+        photo: li.photo || '',
+        quantity: 0,
+        transferredToDayOne: 0
+      };
+      state.warehouseInventory.dayone[section].unshift(card);
+    } else {
+      // Always propagate the latest PO line-item photo and name to the
+      // warehouse card so the warehouse view stays in sync with Production.
+      if (li.photo) card.photo = li.photo;
+      if (li.name)  card.name  = li.name;
+    }
+    card.quantity = (+card.quantity || 0) + toSend;
+
+    if (!Array.isArray(li.shipments)) li.shipments = liShipments(li);
+    li.shipments.push({
+      at: completedAtIso,
+      warehouse: 'dayone',
+      section,
+      quantity: toSend,
+      auto: true // marker so the user can see it came from "Mark Complete"
+    });
+    const newCumulative = liCumulativeSent(li);
+    li.receivedToWarehouse = newCumulative >= qty;
+    li.receivedAt          = completedAtIso;
+    li.receivedWarehouse   = 'dayone';
+    li.receivedSection     = section;
+    li.receivedQuantity    = newCumulative;
+    totalShipped += toSend;
+    itemsShipped += 1;
+  });
+
+  po.completedAt = completedAtIso;
   state.completedProduction.unshift(po);
   state.inProduction.splice(idx, 1);
   expandedPOs.delete(id);
   editingPOs.delete(id);
   saveState();
   render();
-  toast('PO moved to Completed Production');
+  const sent = totalShipped > 0
+    ? ` · ${fmtNum(totalShipped)} units across ${itemsShipped} line item${itemsShipped === 1 ? '' : 's'} → DayOne`
+    : '';
+  toast(`PO moved to Completed${sent}`);
 }
 
 function reopenPO(id) {
@@ -5214,6 +7166,10 @@ function parseExcelFile(file, moduleKey) {
       const headers = Object.keys(rows[0]);
       if (moduleKey === 'sales') importSales(rows, headers);
       else if (moduleKey === 'inProduction') importInProduction(rows, headers);
+      else if (moduleKey === 'warehouseItems_bs')     importWarehouseItems(rows, headers, 'bs');
+      else if (moduleKey === 'warehouseItems_dayone') importWarehouseItems(rows, headers, 'dayone');
+      else if (moduleKey === 'partnerStock_bs')       importPartnerStock(rows, headers, 'bs');
+      else if (moduleKey === 'partnerStock_dayone')   importPartnerStock(rows, headers, 'dayone');
     } catch (err) {
       console.error(err);
       toast('Could not read file');
@@ -5268,25 +7224,52 @@ function importSales(rows, headers) {
   } else {
     headers.forEach(h => { if (h !== skuKey && h !== nameKey) orderedDayKeys.push(h); });
   }
-  const parsed = rows.map(r => {
-    const values = [];
+  const parsedRows = rows.map(r => {
+    const values   = [];
+    const restocks = [];
     for (let i = 0; i < SALES_DAYS_MAX; i++) {
       const k = orderedDayKeys[i];
-      values[i] = k ? toNum(r[k]) : 0;
+      if (!k) { values[i] = 0; restocks[i] = 0; continue; }
+      const { value, restock } = parseSalesValueWithRestock(r[k]);
+      values[i]   = value;
+      restocks[i] = restock;
     }
     return {
       sku: String(skuKey ? r[skuKey] || '' : '').trim(),
       name: String(nameKey ? r[nameKey] || '' : '').trim(),
-      values
+      values,
+      restocks
     };
   }).filter(r => r.sku || r.name);
+
+  // Merge duplicate-SKU rows (e.g. one row reporting BS sales, another DayOne).
+  // For horizontal the cells are already daily sales, so we can sum values and
+  // restocks element-wise without re-deriving from balances.
+  const bySku = new Map();
+  const noSku = [];
+  let mergedCount = 0;
+  parsedRows.forEach(r => {
+    const key = r.sku ? r.sku.toLowerCase() : null;
+    if (!key) { noSku.push(r); return; }
+    if (!bySku.has(key)) { bySku.set(key, { ...r, values: r.values.slice(), restocks: r.restocks.slice() }); }
+    else {
+      mergedCount++;
+      const ex = bySku.get(key);
+      for (let i = 0; i < SALES_DAYS_MAX; i++) {
+        ex.values[i]   = (ex.values[i]   || 0) + (r.values[i]   || 0);
+        ex.restocks[i] = (ex.restocks[i] || 0) + (r.restocks[i] || 0);
+      }
+    }
+  });
+  const parsed = [...bySku.values(), ...noSku];
   if (parsed.length === 0) { toast('No valid rows found'); return; }
   state.sales = parsed;
   if (anchorDate) state.salesAnchorDate = anchorDate;
   saveState();
   render();
   const importedDays = orderedDayKeys.length;
-  toast(`Imported ${parsed.length} product${parsed.length===1?'':'s'} · ${importedDays > SALES_DAYS_MAX ? SALES_DAYS_MAX : importedDays} days kept`);
+  const mergeNote = mergedCount > 0 ? ` · merged ${mergedCount} duplicate-SKU row${mergedCount===1?'':'s'}` : '';
+  toast(`Imported ${parsed.length} product${parsed.length===1?'':'s'} · ${importedDays > SALES_DAYS_MAX ? SALES_DAYS_MAX : importedDays} days kept${mergeNote}`);
 }
 
 /**
@@ -5300,7 +7283,15 @@ function importSales(rows, headers) {
  */
 function importSalesVertical(rows, headers) {
   const dateKey = headers[0];
-  const productKeys = headers.slice(1).filter(h => String(h).trim() !== '');
+  // Filter out empty headers AND xlsx's auto-generated "__EMPTY" / "__EMPTY_1" /
+  // "__EMPTY_2" placeholders for trailing unlabeled columns (which would
+  // otherwise show up as phantom zero-row products in the imported sales table).
+  const productKeys = headers.slice(1).filter(h => {
+    const s = String(h || '').trim();
+    if (s === '') return false;
+    if (/^__EMPTY(_\d+)?$/i.test(s)) return false;
+    return true;
+  });
   if (productKeys.length === 0) { toast('No product columns found'); return; }
 
   // Detect optional SKU row. A SKU row is one where:
@@ -5343,23 +7334,83 @@ function importSalesVertical(rows, headers) {
   const anchorDate = dated[0].iso;
   const usableDays = Math.min(dated.length, SALES_DAYS_MAX + 1); // need +1 to diff for the oldest day
 
-  // Build per-product daily-sales series
-  const parsed = productKeys.map(productName => {
+  // Pass 1 — read balances + restocks per column (don't compute sales yet,
+  // because columns sharing a SKU need to be summed first for the diff math
+  // to handle transfers between BS/DayOne correctly).
+  const columns = productKeys.map(productName => {
     const balances = [];
+    const dayRestocks = [];
     for (let i = 0; i < usableDays; i++) {
       const cell = dated[i].row[productName];
-      const num = parseSumCell(cell); // handles "3690+32000" → 35690
-      balances.push(num);
+      // For vertical, "value+N" means stock balance is `value` AND a restock of
+      // `N` units happened that day. Sales formula becomes:
+      //   sales = yesterday_balance + today_restock - today_balance
+      // so a pure-restock day no longer looks like negative sales.
+      const { value, restock } = parseSalesValueWithRestock(cell);
+      balances.push(value);
+      dayRestocks.push(restock);
     }
-    // Daily sales: yesterday - today; capped to 0 if negative (restock)
-    const values = new Array(SALES_DAYS_MAX).fill(0);
-    for (let i = 0; i < Math.min(balances.length - 1, SALES_DAYS_MAX); i++) {
-      const delta = balances[i + 1] - balances[i]; // older minus newer = sold
-      values[i] = Math.max(0, delta);
+    const sku = skuRow ? String(skuRow[productName] || '').trim() : '';
+    return { sku, name: String(productName).trim(), balances, dayRestocks };
+  }).filter(c => c.name);
+
+  // Pass 2 — merge columns that share a SKU (e.g. two columns for the same
+  // product, one BS stock balance and one DayOne stock balance). Balances and
+  // restocks are summed element-wise BEFORE computing sales, so an internal
+  // BS↔DayOne transfer cancels out instead of looking like a sale + restock.
+  // Column names are cleaned of common location suffixes like "(BS)" /
+  // "(DayOne)" so the merged row shows a single clean name.
+  const stripLocationSuffix = (name) =>
+    String(name)
+      .replace(/\s*[\(\[（［]\s*(bs|3pl|warehouse|wh|dayone|day one|day-one)[\s\)\]）］]?$/i, '')
+      .trim();
+  const mergedBySku   = new Map();
+  const mergedNoSku   = [];
+  let mergedCount = 0;
+  columns.forEach(c => {
+    const key = c.sku ? c.sku.toLowerCase() : null;
+    if (!key) {
+      mergedNoSku.push({ sku: '', name: c.name, balances: c.balances, dayRestocks: c.dayRestocks });
+      return;
     }
-    const sku  = skuRow ? String(skuRow[productName] || '').trim() : '';
-    return { sku: sku || String(productName).trim(), name: String(productName).trim(), values };
-  }).filter(p => p.name);
+    if (!mergedBySku.has(key)) {
+      mergedBySku.set(key, {
+        sku: c.sku,
+        name: stripLocationSuffix(c.name) || c.name,
+        balances:    c.balances.slice(),
+        dayRestocks: c.dayRestocks.slice()
+      });
+    } else {
+      mergedCount++;
+      const ex = mergedBySku.get(key);
+      const len = Math.max(ex.balances.length, c.balances.length);
+      const sumB = new Array(len).fill(0);
+      const sumR = new Array(len).fill(0);
+      for (let i = 0; i < len; i++) {
+        sumB[i] = (ex.balances[i] || 0) + (c.balances[i] || 0);
+        sumR[i] = (ex.dayRestocks[i] || 0) + (c.dayRestocks[i] || 0);
+      }
+      ex.balances    = sumB;
+      ex.dayRestocks = sumR;
+      // Prefer the shorter / location-stripped name if one is cleaner.
+      const stripped = stripLocationSuffix(c.name);
+      if (stripped && stripped.length < ex.name.length) ex.name = stripped;
+    }
+  });
+
+  // Pass 3 — derive daily sales from the merged balance series.
+  const parsed = [...mergedBySku.values(), ...mergedNoSku].map(p => {
+    const values   = new Array(SALES_DAYS_MAX).fill(0);
+    const restocks = new Array(SALES_DAYS_MAX).fill(0);
+    for (let i = 0; i < Math.min(p.balances.length - 1, SALES_DAYS_MAX); i++) {
+      // i = today; i+1 = yesterday (rows sorted newest-first).
+      const restock = p.dayRestocks[i] || 0;
+      const delta = p.balances[i + 1] - p.balances[i] + restock;
+      values[i]   = Math.max(0, delta);
+      restocks[i] = restock;
+    }
+    return { sku: p.sku || p.name, name: p.name, values, restocks };
+  });
 
   if (parsed.length === 0) { toast('No valid product columns found'); return; }
   state.sales = parsed;
@@ -5367,7 +7418,8 @@ function importSalesVertical(rows, headers) {
   saveState();
   render();
   const computedDays = Math.min(dated.length - 1, SALES_DAYS_MAX);
-  toast(`Imported ${parsed.length} product${parsed.length===1?'':'s'} · ${computedDays} days of daily sales computed from stock balances`);
+  const mergeNote = mergedCount > 0 ? ` · merged ${mergedCount} duplicate-SKU column${mergedCount===1?'':'s'}` : '';
+  toast(`Imported ${parsed.length} product${parsed.length===1?'':'s'} · ${computedDays} days of daily sales computed from stock balances${mergeNote}`);
 }
 
 /**
@@ -5379,6 +7431,28 @@ function parseSumCell(v) {
   const s = String(v).trim();
   if (!s.includes('+')) return toNum(s);
   return s.split('+').reduce((sum, part) => sum + toNum(part), 0);
+}
+
+/**
+ * Parse a sales cell that may contain a restock annotation, e.g.:
+ *   "10"        →  { value: 10,   restock: 0    }
+ *   "10+1000"   →  { value: 10,   restock: 1000 }
+ *   "+500"      →  { value: 0,    restock: 500  }   (pure restock day)
+ *   "10 + 1000" →  { value: 10,   restock: 1000 } (spaces tolerated)
+ * Used both for the horizontal sales-per-day template AND the vertical
+ * stock-balance template (where `value` is the EOD stock balance and
+ * `restock` is the units added back into stock during the day).
+ */
+function parseSalesValueWithRestock(v) {
+  if (v === null || v === undefined || v === '') return { value: 0, restock: 0 };
+  const s = String(v).trim().replace(/\s+/g, '');
+  if (!s.includes('+')) return { value: toNum(s), restock: 0 };
+  const parts = s.split('+');
+  // First part is the value (or empty → 0 for pure-restock days);
+  // sum any remaining parts as the restock total.
+  const value   = parts[0] === '' ? 0 : toNum(parts[0]);
+  const restock = parts.slice(1).reduce((sum, p) => sum + toNum(p), 0);
+  return { value: Math.max(0, value), restock: Math.max(0, restock) };
 }
 
 function importInProduction(rows, headers) {
@@ -5428,6 +7502,327 @@ function importInProduction(rows, headers) {
   toast(`Imported ${parsed.length} PO${parsed.length===1?'':'s'}`);
 }
 
+function looksLikeImageSrc(s) {
+  if (!s || typeof s !== 'string') return false;
+  const v = s.trim();
+  if (!v) return false;
+  // Accept data URIs for any image MIME, http(s)/protocol-relative URLs, and
+  // bare filenames ending in a known image extension. Reject "0", "-", "N/A",
+  // "TODO", numbers, etc. that would otherwise pass a truthy check.
+  return /^data:image\//i.test(v) ||
+         /^https?:\/\//i.test(v) ||
+         v.startsWith('//') ||
+         /\.(jpe?g|png|gif|webp|svg|bmp)(\?.*)?$/i.test(v);
+}
+
+function importWarehouseItems(rows, headers, warehouse) {
+  // Resolve column keys by tolerant header matching (handles minor typos /
+  // variations like "Qty", "Quantity", "Warehouse Qty", etc.).
+  const norm = h => String(h || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  const idx = {};
+  const want = {
+    id:       ['itemid','id','recordid','warehouseid','internalid'],
+    sku:      ['sku','code','productcode','itemcode'],
+    name:     ['name','productname','product','itemname','description'],
+    quantity: ['quantity','qty','warehouseqty','warehousequantity','stock','units'],
+    section:  ['section','category','type','bucket'],
+    photo:    ['photo','photourl','image','imageurl','picture'],
+    moved:    ['transferredtodayone','movedtodayone','transferred','moved','toDayone']
+  };
+  headers.forEach(h => {
+    const n = norm(h);
+    Object.entries(want).forEach(([key, candidates]) => {
+      if (!idx[key] && candidates.some(c => c === n)) idx[key] = h;
+    });
+  });
+  // SKU/Name fallback to the first two columns if not detected by name.
+  // If an Item ID column exists, the first two text columns are SKU + Name.
+  const firstCols = idx.id ? [headers[1], headers[2]] : [headers[0], headers[1]];
+  if (!idx.sku  && firstCols[0]) idx.sku  = firstCols[0];
+  if (!idx.name && firstCols[1]) idx.name = firstCols[1];
+
+  const normSection = v => {
+    const s = String(v || '').toLowerCase().trim();
+    if (!s) return 'customized';
+    if (/^(custom|customi[zs]ed|c)$/.test(s)) return 'customized';
+    if (/^(white\s*label|whitelabel|wl|w)$/.test(s)) return 'whitelabel';
+    if (/^(packag|packaging|gift|pkg|p|packing)/.test(s)) return 'packaging';
+    return 'customized'; // default
+  };
+
+  const wh = ensureWHWarehouse(warehouse);
+  let added = 0, updated = 0, renamed = 0, skipped = 0;
+
+  rows.forEach(r => {
+    const itemId = idx.id  ? String(r[idx.id]  || '').trim() : '';
+    const sku    = String(idx.sku  ? r[idx.sku]  : '').trim();
+    const name   = String(idx.name ? r[idx.name] : '').trim();
+    if (!sku && !name && !itemId) { skipped++; return; }
+    const qty     = +(idx.quantity ? r[idx.quantity] : 0) || 0;
+    const section = normSection(idx.section ? r[idx.section] : '');
+    const photo   = idx.photo ? String(r[idx.photo] || '').trim() : '';
+    const moved   = +(idx.moved ? r[idx.moved] : 0) || 0;
+
+    // Match strategy:
+    //   1. If the row has an Item ID, match by that — this lets the user
+    //      rename SKU or Product Name on existing rows without losing them.
+    //   2. Otherwise fall back to SKU-based match (the existing behaviour).
+    let existing = null, existingSection = null;
+    if (itemId) {
+      for (const sec of ['customized','whitelabel','packaging']) {
+        const hit = (wh[sec] || []).find(x => x && x.id === itemId);
+        if (hit) { existing = hit; existingSection = sec; break; }
+      }
+    }
+    if (!existing && sku) {
+      for (const sec of ['customized','whitelabel','packaging']) {
+        const hit = (wh[sec] || []).find(x => x && String(x.sku || '').trim().toLowerCase() === sku.toLowerCase());
+        if (hit) { existing = hit; existingSection = sec; break; }
+      }
+    }
+
+    if (existing) {
+      const skuChanged  = sku && sku !== existing.sku;
+      const nameChanged = name && name !== existing.name;
+      if (skuChanged || nameChanged) renamed++;
+      if (sku)  existing.sku  = sku;
+      if (name) existing.name = name;
+      // Only update fields whose columns actually exist in the import file.
+      // Without this guard, a partial import (e.g. just SKU + Name) was wiping
+      // qty / transferred / photo for matched items.
+      if (idx.quantity !== undefined) existing.quantity = qty;
+      // Only accept photo updates that look like a real image source — keeps
+      // junk like "-", "0", "N/A", or "TODO" in a Photo URL column from
+      // clobbering valid photos.
+      if (looksLikeImageSrc(photo)) existing.photo = photo;
+      if (warehouse === 'bs' && idx.moved !== undefined && moved >= 0) {
+        existing.transferredToDayOne = moved;
+      }
+      // Only relocate to a different section if the file actually has a Section
+      // column — otherwise leave the item where it is.
+      if (idx.section !== undefined && existingSection !== section) {
+        wh[existingSection] = (wh[existingSection] || []).filter(x => x !== existing);
+        if (!Array.isArray(wh[section])) wh[section] = [];
+        wh[section].push(existing);
+      }
+      updated++;
+    } else {
+      if (!Array.isArray(wh[section])) wh[section] = [];
+      wh[section].push({
+        id: itemId || ('wh_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8)),
+        sku,
+        name: name || sku,
+        quantity: qty,
+        transferredToDayOne: warehouse === 'bs' ? moved : 0,
+        photo: looksLikeImageSrc(photo) ? photo : null
+      });
+      added++;
+    }
+  });
+
+  saveState();
+  render();
+  const whLabel = warehouse === 'bs' ? 'BS' : 'DayOne';
+  if (added + updated === 0) {
+    toast(`No valid rows found · check SKU / Name columns`);
+  } else {
+    const renamedNote = renamed > 0 ? ` (${renamed} renamed)` : '';
+    toast(`${whLabel}: ${added} added, ${updated} updated${renamedNote}${skipped ? `, ${skipped} skipped` : ''}`);
+  }
+}
+
+function exportCurrentStocks(warehouse) {
+  const wh = ensureWHWarehouse(warehouse);
+  const headers = ['Item ID', 'SKU', 'Product Name', 'Quantity', 'Section', 'Transferred to DayOne'];
+  const rows = [];
+  for (const section of ['customized','whitelabel','packaging']) {
+    for (const item of (wh[section] || [])) {
+      rows.push([
+        item.id || '',
+        item.sku || '',
+        item.name || '',
+        +item.quantity || 0,
+        section,
+        warehouse === 'bs' ? (+item.transferredToDayOne || 0) : ''
+      ]);
+    }
+  }
+  if (rows.length === 0) { toast(`No items in ${warehouse === 'bs' ? 'BS' : 'DayOne'} warehouse to export`); return; }
+  const wb = XLSX.utils.book_new();
+  const ws = XLSX.utils.aoa_to_sheet([headers, ...rows]);
+  ws['!cols'] = [
+    { wch: 26 }, // Item ID
+    { wch: 22 }, // SKU
+    { wch: 42 }, // Product Name
+    { wch: 10 }, // Quantity
+    { wch: 14 }, // Section
+    { wch: 22 }, // Transferred to DayOne
+  ];
+  // Freeze header row
+  ws['!freeze'] = { xSplit: 0, ySplit: 1 };
+  const whName = warehouse === 'bs' ? 'BS' : 'DayOne';
+  XLSX.utils.book_append_sheet(wb, ws, `${whName} Warehouse`);
+  const dateStr = new Date().toISOString().slice(0, 10);
+  const filename = `facelove-${warehouse}-stocks-${dateStr}.xlsx`;
+  XLSX.writeFile(wb, filename);
+  toast(`Exported ${rows.length} item${rows.length === 1 ? '' : 's'} from ${whName}`);
+}
+
+function exportPartnerTemplate(warehouse) {
+  const wh = ensureWHWarehouse(warehouse);
+  // Match the fulfillment partner's exact column order so the file is
+  // round-trippable: send this to the partner, they fill it in and send back.
+  const headers = ['sku', 'Name', 'English Name', 'Stock Forecast'];
+  const rows = [];
+  for (const section of ['customized','whitelabel','packaging']) {
+    for (const item of (wh[section] || [])) {
+      rows.push([
+        item.sku || '',
+        '',                          // Chinese name — partner fills in if they want
+        item.name || '',             // English name (what you call the item)
+        +item.quantity || 0          // Current stock — partner overwrites with their count
+      ]);
+    }
+  }
+  if (rows.length === 0) { toast(`No items in ${warehouse === 'bs' ? 'BS' : 'DayOne'} warehouse to export`); return; }
+  const wb = XLSX.utils.book_new();
+  const ws = XLSX.utils.aoa_to_sheet([headers, ...rows]);
+  ws['!cols'] = [
+    { wch: 22 }, // sku
+    { wch: 38 }, // Name (zh)
+    { wch: 42 }, // English Name
+    { wch: 16 }, // Stock Forecast
+  ];
+  ws['!freeze'] = { xSplit: 0, ySplit: 1 };
+  const whName = warehouse === 'bs' ? 'BS' : 'DayOne';
+  XLSX.utils.book_append_sheet(wb, ws, 'sheet1');
+  const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+  const filename = `inventory_list_for_partner-${whName}-${dateStr}.xlsx`;
+  XLSX.writeFile(wb, filename);
+  toast(`Exported ${rows.length} item${rows.length === 1 ? '' : 's'} in partner format`);
+}
+
+/* ============================================================
+   Partner-stock import — fulfillment partner's daily Excel.
+   Strictly reads `sku` (any case) and `Stock Forecast` (the user-confirmed
+   "ready stock at the warehouse"). Quantities on existing items are updated
+   by exact SKU match. NOTHING else is touched — no names, no photos, no
+   sections, no transfer counters. SKUs not found in the warehouse are
+   reported in the result modal so the user can decide what to do.
+   ============================================================ */
+function importPartnerStock(rows, headers, warehouse) {
+  const norm = h => String(h || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  let skuCol = null;
+  let qtyCol = null;
+  headers.forEach(h => {
+    const n = norm(h);
+    if (!skuCol && (n === 'sku' || n === 'partnersku' || n === 'productcode' || n === 'itemcode')) skuCol = h;
+    if (!qtyCol && (n === 'stockforecast' || n === 'forecast' || n === 'forecaststock')) qtyCol = h;
+  });
+  if (!skuCol) { toast('Could not find an "sku" column in the partner file'); return; }
+  if (!qtyCol) { toast('Could not find a "Stock Forecast" column in the partner file'); return; }
+
+  const wh = ensureWHWarehouse(warehouse);
+  const skuIndex = new Map(); // lowercased sku -> { item, section }
+  for (const section of ['customized','whitelabel','packaging']) {
+    for (const item of (wh[section] || [])) {
+      const k = String(item.sku || '').trim().toLowerCase();
+      if (k) skuIndex.set(k, { item, section });
+    }
+  }
+
+  let updated = 0;
+  const unmatched = []; // { sku, qty }
+  const updates   = []; // { sku, name, oldQty, newQty }
+  rows.forEach(r => {
+    const sku = String(r[skuCol] || '').trim();
+    if (!sku) return;
+    const qty = +r[qtyCol];
+    if (!isFinite(qty)) return;
+    const hit = skuIndex.get(sku.toLowerCase());
+    if (hit) {
+      const oldQty = +hit.item.quantity || 0;
+      hit.item.quantity = qty;          // ONLY qty is touched
+      updates.push({ sku, name: hit.item.name || sku, oldQty, newQty: qty });
+      updated++;
+    } else {
+      unmatched.push({ sku, qty });
+    }
+  });
+
+  saveState();
+  render();
+  showPartnerStockResult(warehouse, updates, unmatched);
+}
+
+function showPartnerStockResult(warehouse, updates, unmatched) {
+  const whLabel = warehouse === 'bs' ? 'BS' : 'DayOne';
+  const overlay = document.createElement('div');
+  overlay.className = 'transfer-overlay';
+  overlay.style.display = 'flex';
+
+  // Net qty change for matched rows
+  const totalNew = updates.reduce((s, u) => s + u.newQty, 0);
+  const totalOld = updates.reduce((s, u) => s + u.oldQty, 0);
+  const delta = totalNew - totalOld;
+  const deltaStr = delta === 0 ? 'no net change'
+    : (delta > 0 ? `+${fmtNum(delta)} units net` : `${fmtNum(delta)} units net`);
+
+  const updRows = updates.length === 0
+    ? '<em style="color:var(--ink-mute);">No matched items were updated.</em>'
+    : updates.slice(0, 25).map(u => `
+        <tr>
+          <td style="font-family: monospace; font-size: 11px;">${escapeHtml(u.sku)}</td>
+          <td style="font-size: 12px;">${escapeHtml(u.name)}</td>
+          <td style="text-align: right; color: var(--ink-mute); font-size: 11px;">${fmtNum(u.oldQty)}</td>
+          <td style="text-align: right; font-weight: 600;">${fmtNum(u.newQty)}</td>
+          <td style="text-align: right; font-size: 11px; color: ${u.newQty>u.oldQty?'#16794d':(u.newQty<u.oldQty?'#a04040':'var(--ink-mute)')};">
+            ${u.newQty===u.oldQty?'—':((u.newQty>u.oldQty?'+':'')+fmtNum(u.newQty-u.oldQty))}
+          </td>
+        </tr>`).join('');
+  const extraRows = updates.length > 25 ? `<tr><td colspan="5" style="text-align:center;color:var(--ink-mute);font-style:italic;font-size:11px;">… and ${updates.length - 25} more</td></tr>` : '';
+
+  const unRows = unmatched.length === 0 ? '' : `
+    <h3 style="margin-top:24px; font-size:14px; color:var(--status-reorder);">
+      ⚠ ${unmatched.length} unmatched SKU${unmatched.length===1?'':'s'} · skipped
+    </h3>
+    <p style="font-size: 12px; color: var(--ink-mute); margin: 6px 0 8px;">
+      These SKUs from the partner file don't match any item in your ${whLabel} warehouse. Add them as new items, or change their SKU in your warehouse to match.
+    </p>
+    <table class="transfer-result-table"><thead><tr>
+      <th style="text-align:left;">SKU</th>
+      <th style="text-align:right;">Reported Qty</th>
+    </tr></thead><tbody>
+      ${unmatched.slice(0, 50).map(u => `
+        <tr>
+          <td style="font-family: monospace; font-size: 11px;">${escapeHtml(u.sku)}</td>
+          <td style="text-align: right; font-size: 12px;">${fmtNum(u.qty)}</td>
+        </tr>`).join('')}
+      ${unmatched.length > 50 ? `<tr><td colspan="2" style="text-align:center;color:var(--ink-mute);font-style:italic;font-size:11px;">… and ${unmatched.length - 50} more</td></tr>` : ''}
+    </tbody></table>`;
+
+  overlay.innerHTML = `
+    <div class="transfer-modal" style="max-width: 760px; width: 92vw;">
+      <h2>🚚 Partner stock sync · ${whLabel}</h2>
+      <p>
+        Updated <strong>${updates.length}</strong> item${updates.length===1?'':'s'} · ${deltaStr}.
+      </p>
+      <table class="transfer-result-table"><thead><tr>
+        <th style="text-align:left;">SKU</th>
+        <th style="text-align:left;">Name</th>
+        <th style="text-align:right;">Old</th>
+        <th style="text-align:right;">New</th>
+        <th style="text-align:right;">Δ</th>
+      </tr></thead><tbody>${updRows}${extraRows}</tbody></table>
+      ${unRows}
+      <div class="transfer-modal-actions" style="margin-top: 20px;">
+        <button class="btn btn-primary" onclick="this.closest('.transfer-overlay').remove()">Done</button>
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+  toast(`Synced ${updates.length} item${updates.length===1?'':'s'}${unmatched.length?` · ${unmatched.length} unmatched`:''}`);
+}
+
 function downloadTemplate(moduleKey) {
   let headers, exampleRows, filename;
   let useTwoRowHeader = false;
@@ -5438,26 +7833,37 @@ function downloadTemplate(moduleKey) {
     for (let i = 0; i < 30; i++) dateHeaders.push(addDaysISO(anchor, -i));
     headers = ['SKU','Product Name', ...dateHeaders];
     exampleRows = [
-      ['FL-FS-01','Changing Foundation Stick — Ivory', 12,14,10,18,11,13,15, 11,12,10,14,13,12,11, 10,12,11,13,9,10,11,12, 13,14,11,10,9,11,12],
+      // Note the "11+500" cell — the 11 is units sold that day, the +500 is a
+      // restock annotation. Only the sales side counts toward ADS.
+      ['FL-FS-01','Changing Foundation Stick — Ivory', 12,14,10,18,'11+500',13,15, 11,12,10,14,13,12,11, 10,12,11,13,9,10,11,12, 13,14,11,10,9,11,12],
       ['FL-FS-02','Changing Foundation Stick — Beige', 20,18,22,19,24,21,20, 22,19,21,20,18,22,20, 19,20,21,18,17,22,20, 21,19,18,20,22,19,21]
     ];
     filename = 'facelove-sales-template.xlsx';
   } else if (moduleKey === 'salesVertical') {
     // 3PL-style: dates run down rows, products across columns, cells are
-    // end-of-day stock balances; the app diffs to get daily sales.
+    // end-of-day stock balances; the app diffs to get daily sales. A cell of
+    // the form `35690+1000` means EOD balance is 35690 AND a 1000-unit restock
+    // happened that day (so the diff math credits the restock instead of
+    // hiding sales as a negative delta).
+    //
+    // Two columns sharing the same SKU (in the SKU row) are auto-merged —
+    // their balances are summed BEFORE sales are computed, so internal
+    // BS↔DayOne transfers cancel out instead of looking like fake sales.
+    // The example below shows Foundation Stick split across BS / DayOne.
     const anchor = state.salesAnchorDate || todayISO();
-    headers = ['Date', 'Black Mascara', 'Brown Mascara', 'Foundation Stick'];
-    // SKU row (row 2): Date col empty, SKUs under each product
-    secondRow = ['', 'DPCD2-CC305002', 'DPCD2-CC305001', 'FL-CCFS-01'];
+    headers      = ['Date', 'Black Mascara', 'Brown Mascara', 'Foundation Stick (BS)', 'Foundation Stick (DayOne)'];
+    secondRow    = ['',     'DPCD2-CC305002', 'DPCD2-CC305001', 'DPCD2-CC582001',        'DPCD2-CC582001'];
     useTwoRowHeader = true;
-    // 14 days of decreasing stock as an example
+    // 14 days of example balances. Foundation Stick split: ~30% in BS, ~70% in DayOne.
     exampleRows = [];
-    let bal = [35690, 5389, 42349];
+    let bal = [35690, 5389, 12700, 29649]; // [mascara_bk, mascara_br, fs_bs, fs_dayone]
     for (let i = 0; i < 14; i++) {
       const dateISO = addDaysISO(anchor, -i);
-      exampleRows.push([dateISO, bal[0], bal[1], bal[2]]);
-      // Decrease by a plausible daily-sales amount for next iteration (older day = higher stock)
-      bal = [bal[0] + 1200, bal[1] + 100, bal[2] + 2000];
+      // Day 3 shows a restock annotation on the DayOne column: stock came in
+      // overnight, so EOD balance is 29649 AND a 1000-unit restock happened.
+      const fsDayOne = i === 2 ? `${bal[3]}+1000` : bal[3];
+      exampleRows.push([dateISO, bal[0], bal[1], bal[2], fsDayOne]);
+      bal = [bal[0] + 1200, bal[1] + 100, bal[2] + 600, bal[3] + 1400];
     }
     filename = 'facelove-sales-vertical-template.xlsx';
   } else if (moduleKey === 'inProduction') {
@@ -5468,6 +7874,16 @@ function downloadTemplate(moduleKey) {
       ['Seoul Cosmetics Lab','PO-2026-015','2026-05-07','2026-06-15','','','RMB','Urgent restock','FL-SS-01','Setting Spray',1200,0,0,24.50]
     ];
     filename = 'facelove-in-production-template.xlsx';
+  } else if (moduleKey === 'warehouseItems') {
+    headers = ['Item ID','SKU','Product Name','Quantity','Section','Transferred to DayOne','Photo URL'];
+    exampleRows = [
+      ['',                 'FL-FS-01',     'Foundation Stick (Ivory)',           500, 'customized', 0, ''],
+      ['',                 'FL-FS-02',     'Foundation Stick (Beige)',           320, 'customized', 0, ''],
+      ['',                 'FL-MASK-WL-04','Sheet Mask (Hydra)',                 800, 'whitelabel', 0, ''],
+      ['',                 'FL-BAG-01',    'Velvet Pouch · Lavender',            150, 'packaging',  0, ''],
+      ['',                 'FL-LIP-AR',    'Lipstick (Aria – Bright Nude)',       50, 'customized', 0, '']
+    ];
+    filename = 'facelove-warehouse-template.xlsx';
   }
   const wb = XLSX.utils.book_new();
   const sheetData = useTwoRowHeader
@@ -5477,6 +7893,7 @@ function downloadTemplate(moduleKey) {
   ws['!cols'] = headers.map(h => ({ wch: Math.max(12, h.length + 4) }));
   const sheetName = moduleKey === 'inProduction' ? 'In Production'
                   : moduleKey === 'salesVertical' ? 'Stock Balances'
+                  : moduleKey === 'warehouseItems' ? 'Warehouse'
                   : 'Sales';
   XLSX.utils.book_append_sheet(wb, ws, sheetName);
   XLSX.writeFile(wb, filename);
@@ -5951,6 +8368,192 @@ function removePITag(id, type, value) {
   saveState(); render();
 }
 
+/* ============================================================
+   DAILY SALES DATA IMPORT & ADS CALCULATION
+   Imports Excel with daily stock levels (BS + DayOne columns)
+   Combines them and calculates ADS from stock changes
+   ============================================================ */
+function importDailySalesData() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.xlsx,.xls';
+  input.onchange = e => {
+    const file = e.target.files[0];
+    if (file) parseDailySalesExcel(file);
+  };
+  input.click();
+}
+
+function parseDailySalesExcel(file) {
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = new Uint8Array(e.target.result);
+      const wb = XLSX.read(data, { type: 'array' });
+      const ws = wb.Sheets[wb.SheetNames[0]];
+      const rows = XLSX.utils.sheet_to_json(ws, { header: 1, defval: '' });
+      
+      if (rows.length < 3) {
+        toast('Excel file needs at least 3 rows (headers, SKUs, data)');
+        return;
+      }
+      
+      // Row 0: Product names with " — BS" and " — DayOne" suffixes
+      // Row 1: SKU codes
+      // Row 2+: Date and daily stock numbers
+      const headers = rows[0];
+      const skuRow = rows[1];
+      const dataRows = rows.slice(2);
+      
+      // Parse products and group BS + DayOne + Restock columns
+      const products = new Map(); // productKey -> { name, bsCol, dayoneCol, restockCol, sku }
+      
+      for (let col = 1; col < headers.length; col++) {
+        const header = String(headers[col] || '').trim();
+        const sku = String(skuRow[col] || '').trim();
+        
+        if (!header) continue;
+        
+        // Extract product name and source
+        let productName, source;
+        if (header.includes(' — BS')) {
+          productName = header.replace(' — BS', '').trim();
+          source = 'bs';
+        } else if (header.includes(' — DayOne')) {
+          productName = header.replace(' — DayOne', '').trim();
+          source = 'dayone';
+        } else if (header.includes(' — Restock') || header.includes(' Restock')) {
+          productName = header.replace(' — Restock', '').replace(' Restock', '').trim();
+          source = 'restock';
+        } else {
+          // Single column product (no BS/DayOne split)
+          productName = header;
+          source = 'single';
+        }
+        
+        const key = productName.toLowerCase();
+        if (!products.has(key)) {
+          products.set(key, { name: productName, sku: sku, bsCol: null, dayoneCol: null, singleCol: null, restockCol: null });
+        }
+        
+        const prod = products.get(key);
+        if (source === 'bs') prod.bsCol = col;
+        else if (source === 'dayone') prod.dayoneCol = col;
+        else if (source === 'restock') prod.restockCol = col;
+        else prod.singleCol = col;
+        
+        // Always update the product name to the stripped version (without BS/DayOne/Restock suffix)
+        prod.name = productName;
+        
+        // Update SKU (prefer BS SKU if available, since it might be more standard)
+        if ((source === 'bs' || !prod.sku) && sku) prod.sku = sku;
+      }
+      
+      // Calculate daily sales from stock changes
+      const salesData = [];
+      products.forEach(prod => {
+        // Skip products that only have Restock column (no actual inventory data)
+        if (!prod.singleCol && !prod.bsCol && !prod.dayoneCol) {
+          return; // This is just a Restock column without inventory data
+        }
+        
+        const dailyTotals = [];
+        const dailyRestocks = [];
+        
+        dataRows.forEach(row => {
+          let total = 0;
+          if (prod.singleCol !== null) {
+            total = parseFloat(row[prod.singleCol]) || 0;
+          } else {
+            const bs = parseFloat(row[prod.bsCol]) || 0;
+            const dayone = parseFloat(row[prod.dayoneCol]) || 0;
+            total = bs + dayone;
+          }
+          
+          // Get restock amount for this day
+          const restock = prod.restockCol !== null ? (parseFloat(row[prod.restockCol]) || 0) : 0;
+          
+          dailyTotals.push(total);
+          dailyRestocks.push(restock);
+        });
+        
+        // Calculate daily sales with proper restock handling
+        // Logic: Sales = Yesterday's ending inventory - Today's beginning inventory (before restock)
+        //        Where: Today's beginning = Today's ending - Today's restock received
+        const dailySales = [];
+        for (let i = 1; i < dailyTotals.length; i++) {
+          const previousEnding = dailyTotals[i-1]; // Yesterday's ending inventory (what's shown in Excel)
+          const todayEnding = dailyTotals[i]; // Today's ending inventory (what's shown in Excel)
+          const todayRestock = dailyRestocks[i]; // Inventory added today
+          
+          // Calculate today's beginning inventory (before receiving today's restock)
+          const todayBeginning = todayEnding - todayRestock;
+          
+          // Sales = what we had yesterday minus what we had this morning
+          const sales = previousEnding - todayBeginning;
+          
+          // Only count positive sales
+          dailySales.push(Math.max(0, sales));
+        }
+        
+        // Reverse to get most recent first (like the existing sales data format)
+        dailySales.reverse();
+        
+        if (dailySales.length > 0) {
+          salesData.push({
+            sku: prod.sku,
+            name: prod.name,
+            values: dailySales
+          });
+        }
+      });
+      
+      // Store in state
+      state.dailySalesData = {
+        importDate: new Date().toISOString(),
+        dateRange: dataRows.length > 0 ? {
+          start: dataRows[0][0],
+          end: dataRows[dataRows.length - 1][0]
+        } : null,
+        products: salesData
+      };
+      
+      // Calculate ADS report summary
+      const report = salesData.map(p => {
+        const ads3 = computeAds(p.values, Math.min(3, p.values.length));
+        const ads7 = computeAds(p.values, Math.min(7, p.values.length));
+        const ads14 = computeAds(p.values, Math.min(14, p.values.length));
+        const ads30 = computeAds(p.values, Math.min(30, p.values.length));
+        return {
+          sku: p.sku,
+          name: p.name,
+          ads3: ads3.toFixed(1),
+          ads7: ads7.toFixed(1),
+          ads14: ads14.toFixed(1),
+          ads30: ads30.toFixed(1),
+          totalDays: p.values.length
+        };
+      }).filter(p => {
+        // Extra safety: filter out any products with "Restock" in the name
+        return !p.name.includes('Restock') && !p.name.includes('— Restock');
+      });
+      
+      // Sort by ADS14 descending
+      report.sort((a, b) => parseFloat(b.ads14) - parseFloat(a.ads14));
+      
+      state.adsReport = report;
+      
+      saveState();
+      render();
+      toast(`Imported ${salesData.length} products with ${dataRows.length} days of data`);
+    } catch (err) {
+      console.error('Parse error:', err);
+      toast('Failed to parse Excel file');
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
 /* ---------- Wire-up ---------- */
 document.querySelectorAll('.nav-item').forEach(btn => {
   btn.addEventListener('click', () => setView(btn.dataset.view));
@@ -6001,6 +8604,95 @@ document.getElementById('receive-qty').addEventListener('keydown', e => {
 document.getElementById('doc-preview-close').addEventListener('click', closeDocPreview);
 document.getElementById('doc-preview-overlay').addEventListener('click', e => {
   if (e.target.id === 'doc-preview-overlay') closeDocPreview();
+});
+
+/* ============================================================
+   Generic sortable-table system
+   Any table with class "sortable-table" gets click-to-sort on its
+   `<th>` cells. Sort key = cell's `data-sort-value` attribute when
+   present (preferred for inputs / formatted numbers), otherwise the
+   cell's plain text. Direction cycles asc → desc → asc on repeat
+   clicks. Sort state is purely DOM (resets on re-render) — which
+   matches the "best of both worlds" idea: lightweight, no state
+   leak across views, but persists while the user is exploring the
+   current table.
+   Group rows (parent + indented children) are kept together — only
+   the parents are sorted; child rows stay glued under their parent.
+   ============================================================ */
+function sortTableBy(table, thEl) {
+  const colIndex = Array.from(thEl.parentNode.children).indexOf(thEl);
+  if (colIndex < 0) return;
+  const tbody = table.tBodies[0];
+  if (!tbody) return;
+  // Clear sort indicators on sibling headers
+  thEl.parentNode.querySelectorAll('th.is-sorted-asc, th.is-sorted-desc')
+    .forEach(o => { if (o !== thEl) o.classList.remove('is-sorted-asc', 'is-sorted-desc'); });
+  // Decide new direction
+  const isAsc = !thEl.classList.contains('is-sorted-asc');
+  thEl.classList.toggle('is-sorted-asc',  isAsc);
+  thEl.classList.toggle('is-sorted-desc', !isAsc);
+
+  const sortValueOf = (row) => {
+    const cell = row.cells[colIndex];
+    if (!cell) return '';
+    if (cell.dataset.sortValue != null) return cell.dataset.sortValue;
+    // If the cell holds an editable <input>, prefer its current value
+    const input = cell.querySelector('input[type="number"], input[type="text"], input[type="date"]');
+    if (input) return input.value || '';
+    return cell.textContent.trim();
+  };
+  const toComparable = (v) => {
+    const s = String(v).trim();
+    if (s === '' || s === '—' || s === '-') return isAsc ? Infinity : -Infinity;
+    if (s === '∞') return isAsc ? Infinity : -Infinity;
+    // Strip currency/punctuation for numeric attempts
+    const numStr = s.replace(/[,$€¥£\s]/g, '').replace(/^\+/, '');
+    const n = parseFloat(numStr);
+    if (!isNaN(n) && /^-?\d+(\.\d+)?$/.test(numStr)) return n;
+    return s.toLowerCase();
+  };
+
+  // Group-aware: rows tagged .group-parent-row "own" the .group-child-row
+  // siblings that follow them until the next parent. Treat each group as a
+  // single block when sorting (parent's value, children stay tucked beneath).
+  const allRows = Array.from(tbody.rows);
+  const blocks = []; // each block = [parent, ...children]
+  let i = 0;
+  while (i < allRows.length) {
+    const row = allRows[i];
+    if (row.classList.contains('group-child-row')) {
+      // orphan child (shouldn't happen) — attach to last block or as its own
+      if (blocks.length) blocks[blocks.length-1].push(row);
+      else blocks.push([row]);
+      i++; continue;
+    }
+    const block = [row];
+    let j = i + 1;
+    while (j < allRows.length && allRows[j].classList.contains('group-child-row')) {
+      block.push(allRows[j]); j++;
+    }
+    blocks.push(block); i = j;
+  }
+  blocks.sort((a, b) => {
+    const va = toComparable(sortValueOf(a[0]));
+    const vb = toComparable(sortValueOf(b[0]));
+    if (va < vb) return isAsc ? -1 : 1;
+    if (va > vb) return isAsc ?  1 : -1;
+    return 0;
+  });
+  blocks.forEach(block => block.forEach(row => tbody.appendChild(row)));
+}
+
+document.addEventListener('click', e => {
+  const th = e.target.closest('th');
+  if (!th) return;
+  const table = th.closest('table.sortable-table');
+  if (!table) return;
+  // Skip if the header explicitly opts out
+  if (th.classList.contains('no-sort') || th.dataset.sort === 'false') return;
+  // Skip if there's no useful content to sort by (e.g. action buttons)
+  if (th.textContent.trim() === '') return;
+  sortTableBy(table, th);
 });
 
 document.addEventListener('keydown', e => {
