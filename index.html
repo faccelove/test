@@ -3276,6 +3276,19 @@
   </div>
 </div>
 
+<div class="transfer-overlay" id="stock-date-overlay" style="display:none;">
+  <div class="transfer-modal">
+    <h2>📦 Import Today's Stock</h2>
+    <p>We'll calculate daily sales by comparing this stock snapshot to your most recent data.</p>
+    <label for="stock-date-input">Stock snapshot date</label>
+    <input type="date" id="stock-date-input" style="width: 100%; padding: 12px; border: 1px solid var(--line); border-radius: var(--radius); font-family: inherit; font-size: 14px;">
+    <div class="transfer-modal-actions">
+      <button class="btn btn-ghost" id="stock-date-cancel">Cancel</button>
+      <button class="btn btn-primary" id="stock-date-confirm">Calculate ADS</button>
+    </div>
+  </div>
+</div>
+
 <div class="doc-preview-overlay" id="doc-preview-overlay" style="display:none;">
   <div class="doc-preview-header">
     <div style="flex:1; min-width: 0;">
@@ -5655,7 +5668,6 @@ function renderDashboard() {
 
   return `
     <div class="action-bar">
-      <button class="btn" onclick="importDailySalesData()">📥 Import Daily Sales Data</button>
       <span class="last-updated">${getLastUpdated()}</span>
       <div style="margin-left:auto; display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
         ${hiddenSkus.length > 0 ? `
@@ -5875,6 +5887,8 @@ function renderSales() {
   const anchor = state.salesAnchorDate || todayISO();
   const buttons = [
     { label: 'Import Excel', primary: true, action: "triggerImport('sales')" },
+    { label: 'Import Daily Sales Data', primary: false, action: "importDailySalesData()" },
+    { label: "Import Today's Stock", primary: false, action: "importTodaysStock()" },
     { label: 'Template · Horizontal', action: "downloadTemplate('sales')" },
     { label: 'Template · Vertical (3PL)', action: "downloadTemplate('salesVertical')" },
     has ? { label: 'Clear All Sales', action: 'clearAllSales()', ghost: true, danger: true } : null,
@@ -8549,6 +8563,206 @@ function parseDailySalesExcel(file) {
     } catch (err) {
       console.error('Parse error:', err);
       toast('Failed to parse Excel file');
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+/* ---------- Import Today's Stock ---------- */
+let pendingWarehouseFile = null;
+
+function importTodaysStock() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.xlsx,.xls';
+  input.onchange = e => {
+    const file = e.target.files[0];
+    if (file) {
+      pendingWarehouseFile = file;
+      showStockDatePicker();
+    }
+  };
+  input.click();
+}
+
+function showStockDatePicker() {
+  const overlay = document.getElementById('stock-date-overlay');
+  const dateInput = document.getElementById('stock-date-input');
+  const cancelBtn = document.getElementById('stock-date-cancel');
+  const confirmBtn = document.getElementById('stock-date-confirm');
+  
+  // Set default to today
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const mm = String(today.getMonth() + 1).padStart(2, '0');
+  const dd = String(today.getDate()).padStart(2, '0');
+  dateInput.value = `${yyyy}-${mm}-${dd}`;
+  
+  overlay.style.display = 'flex';
+  
+  const hideOverlay = () => {
+    overlay.style.display = 'none';
+    pendingWarehouseFile = null;
+  };
+  
+  cancelBtn.onclick = hideOverlay;
+  confirmBtn.onclick = () => {
+    const selectedDate = dateInput.value;
+    if (!selectedDate) {
+      toast('Please select a date');
+      return;
+    }
+    hideOverlay();
+    parseWarehouseExcel(pendingWarehouseFile, selectedDate);
+  };
+}
+
+function parseWarehouseExcel(file, stockDate) {
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = new Uint8Array(e.target.result);
+      const wb = XLSX.read(data, { type: 'array' });
+      const ws = wb.Sheets[wb.SheetNames[0]];
+      const rows = XLSX.utils.sheet_to_json(ws, { header: 1 });
+      
+      if (rows.length < 2) {
+        toast('Warehouse file needs at least a header row and data');
+        return;
+      }
+      
+      // Detect format by checking headers
+      const headers = rows[0].map(h => String(h || '').toLowerCase().trim());
+      let skuCol = -1;
+      let qtyCol = -1;
+      
+      // Format 1: DayOne export (sku, Stock Forecast)
+      if (headers.includes('sku') && headers.includes('stock forecast')) {
+        skuCol = headers.indexOf('sku');
+        qtyCol = headers.indexOf('stock forecast');
+      }
+      // Format 2: Warehouse template (Item ID, SKU, Product Name, Quantity, ...)
+      else if (headers.length >= 4) {
+        // Assume: col 1 = SKU, col 3 = Quantity
+        skuCol = 1;
+        qtyCol = 3;
+      }
+      // Format 3: Generic (first col with "sku", first col with "quantity" or "stock")
+      else {
+        skuCol = headers.findIndex(h => h.includes('sku'));
+        qtyCol = headers.findIndex(h => h.includes('quantity') || h.includes('stock') || h.includes('qty'));
+      }
+      
+      if (skuCol === -1 || qtyCol === -1) {
+        toast('Could not find SKU and Quantity columns. Please check file format.');
+        return;
+      }
+      
+      const newStockMap = new Map(); // SKU -> quantity
+      
+      for (let i = 1; i < rows.length; i++) {
+        const row = rows[i];
+        const sku = String(row[skuCol] || '').trim();
+        const quantity = parseFloat(row[qtyCol]) || 0;
+        
+        if (sku) {
+          newStockMap.set(sku, quantity);
+        }
+      }
+      
+      // Get existing daily sales data
+      if (!state.dailySalesData || !state.dailySalesData.products) {
+        toast('Please import Daily Sales Data first to establish baseline');
+        return;
+      }
+      
+      // Calculate new daily sales by comparing with most recent stock
+      const updatedProducts = [];
+      let matchedCount = 0;
+      let newSalesTotal = 0;
+      
+      state.dailySalesData.products.forEach(prod => {
+        if (newStockMap.has(prod.sku)) {
+          matchedCount++;
+          
+          // Get the most recent stock from existing data
+          // The most recent day is at index 0 (reversed in parseDailySalesExcel)
+          // To get stock, we need to work backwards from sales
+          // Stock = Previous_Stock - Sales
+          
+          // Actually, we need to reconstruct the last known stock
+          // Let's assume the last entry in values[] is the oldest day's sales
+          // And we'll add the new day's sales at the beginning
+          
+          // Simple approach: just look at current stock vs new stock
+          // We don't have the previous stock directly, so let's get it from inventory cards
+          const inventoryCard = state.inventory.find(inv => inv.sku === prod.sku);
+          let previousStock = 0;
+          
+          if (inventoryCard) {
+            previousStock = inventoryCard.quantity || 0;
+          }
+          
+          const newStock = newStockMap.get(prod.sku);
+          const dailySales = Math.max(0, previousStock - newStock);
+          
+          newSalesTotal += dailySales;
+          
+          // Add new day's sales at the beginning (most recent)
+          const updatedValues = [dailySales, ...prod.values];
+          
+          // Keep only last 30 days
+          if (updatedValues.length > 30) {
+            updatedValues.length = 30;
+          }
+          
+          updatedProducts.push({
+            sku: prod.sku,
+            name: prod.name,
+            values: updatedValues
+          });
+          
+          // Update inventory quantity
+          if (inventoryCard) {
+            inventoryCard.quantity = newStock;
+          }
+        } else {
+          // SKU not in new warehouse file, keep existing data
+          updatedProducts.push(prod);
+        }
+      });
+      
+      // Update state
+      state.dailySalesData.products = updatedProducts;
+      state.dailySalesData.lastStockUpdate = stockDate;
+      
+      // Recalculate ADS report
+      const report = updatedProducts.map(p => {
+        const ads3 = computeAds(p.values, Math.min(3, p.values.length));
+        const ads7 = computeAds(p.values, Math.min(7, p.values.length));
+        const ads14 = computeAds(p.values, Math.min(14, p.values.length));
+        const ads30 = computeAds(p.values, Math.min(30, p.values.length));
+        return {
+          sku: p.sku,
+          name: p.name,
+          ads3: ads3.toFixed(1),
+          ads7: ads7.toFixed(1),
+          ads14: ads14.toFixed(1),
+          ads30: ads30.toFixed(1),
+          totalDays: p.values.length
+        };
+      }).filter(p => !p.name.includes('Restock') && !p.name.includes('— Restock'));
+      
+      report.sort((a, b) => parseFloat(b.ads14) - parseFloat(a.ads14));
+      state.adsReport = report;
+      
+      saveState();
+      render();
+      toast(`✅ Updated ${matchedCount} products for ${stockDate} · ${newSalesTotal} total sales`);
+      
+    } catch (err) {
+      console.error('Parse error:', err);
+      toast('Failed to parse warehouse file');
     }
   };
   reader.readAsArrayBuffer(file);
