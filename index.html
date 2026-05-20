@@ -8631,113 +8631,104 @@ function parseWarehouseExcel(file, stockDate) {
         return;
       }
       
-      // Detect format by checking headers
+      // Detect format and get SKU/quantity columns
       const headers = rows[0].map(h => String(h || '').toLowerCase().trim());
-      let skuCol = -1;
-      let qtyCol = -1;
+      let skuCol = -1, qtyCol = -1;
       
-      // Format 1: DayOne export (sku, Stock Forecast)
       if (headers.includes('sku') && headers.includes('stock forecast')) {
         skuCol = headers.indexOf('sku');
         qtyCol = headers.indexOf('stock forecast');
-      }
-      // Format 2: Warehouse template (Item ID, SKU, Product Name, Quantity, ...)
-      else if (headers.length >= 4) {
-        // Assume: col 1 = SKU, col 3 = Quantity
-        skuCol = 1;
-        qtyCol = 3;
-      }
-      // Format 3: Generic (first col with "sku", first col with "quantity" or "stock")
-      else {
+      } else if (headers.length >= 4) {
+        skuCol = 1; qtyCol = 3;
+      } else {
         skuCol = headers.findIndex(h => h.includes('sku'));
         qtyCol = headers.findIndex(h => h.includes('quantity') || h.includes('stock') || h.includes('qty'));
       }
       
       if (skuCol === -1 || qtyCol === -1) {
-        toast('Could not find SKU and Quantity columns. Please check file format.');
+        toast('Could not find SKU and Quantity columns');
         return;
       }
       
-      const newStockMap = new Map(); // SKU -> quantity
-      
+      // Build stock map: SKU -> quantity
+      const newStockMap = new Map();
       for (let i = 1; i < rows.length; i++) {
-        const row = rows[i];
-        const sku = String(row[skuCol] || '').trim();
-        const quantity = parseFloat(row[qtyCol]) || 0;
-        
-        if (sku) {
-          newStockMap.set(sku, quantity);
-        }
+        const sku = String(rows[i][skuCol] || '').trim();
+        const quantity = parseFloat(rows[i][qtyCol]) || 0;
+        if (sku) newStockMap.set(sku, quantity);
       }
       
-      // Get existing daily sales data
+      // Check if we have existing daily sales data structure
       if (!state.dailySalesData || !state.dailySalesData.products) {
-        toast('Please import Daily Sales Data first to establish baseline');
+        toast('Please import Daily Sales Data first to establish product structure');
         return;
       }
       
-      // Calculate new daily sales by comparing with most recent stock
-      const updatedProducts = [];
+      // Add new day row to each product's values array
+      // Values array structure: [most_recent, day-1, day-2, ...]
+      const products = state.dailySalesData.products;
       let matchedCount = 0;
-      let newSalesTotal = 0;
+      let totalSales = 0;
       
-      state.dailySalesData.products.forEach(prod => {
-        if (newStockMap.has(prod.sku)) {
+      products.forEach(prod => {
+        const newStock = newStockMap.get(prod.sku);
+        
+        if (newStock !== undefined) {
           matchedCount++;
           
-          // Get the most recent stock from existing data
-          // The most recent day is at index 0 (reversed in parseDailySalesExcel)
-          // To get stock, we need to work backwards from sales
-          // Stock = Previous_Stock - Sales
-          
-          // Actually, we need to reconstruct the last known stock
-          // Let's assume the last entry in values[] is the oldest day's sales
-          // And we'll add the new day's sales at the beginning
-          
-          // Simple approach: just look at current stock vs new stock
-          // We don't have the previous stock directly, so let's get it from inventory cards
-          const inventoryCard = state.inventory.find(inv => inv.sku === prod.sku);
+          // Calculate sales: previous stock - new stock
+          // Previous stock = most recent day's ending stock
+          // For first time, we reconstruct from inventory cards
           let previousStock = 0;
           
-          if (inventoryCard) {
-            previousStock = inventoryCard.quantity || 0;
+          if (prod.values.length > 0) {
+            // Get the most recent stock by working backwards from most recent sales
+            // Stock = PreviousStock - Sales
+            // So: PreviousStock = Stock + Sales
+            // But we need to reconstruct from the beginning...
+            
+            // Actually, let's just use the inventory card quantity
+            const inventoryCard = state.inventory.find(inv => inv.sku === prod.sku);
+            if (inventoryCard) {
+              previousStock = inventoryCard.quantity || 0;
+            }
+          } else {
+            // No previous data, use inventory cards
+            const inventoryCard = state.inventory.find(inv => inv.sku === prod.sku);
+            if (inventoryCard) {
+              previousStock = inventoryCard.quantity || 0;
+            }
           }
           
-          const newStock = newStockMap.get(prod.sku);
+          // Calculate sales
           const dailySales = Math.max(0, previousStock - newStock);
+          totalSales += dailySales;
           
-          newSalesTotal += dailySales;
-          
-          // Add new day's sales at the beginning (most recent)
-          const updatedValues = [dailySales, ...prod.values];
+          // Add to beginning of array (most recent first)
+          prod.values.unshift(dailySales);
           
           // Keep only last 30 days
-          if (updatedValues.length > 30) {
-            updatedValues.length = 30;
+          if (prod.values.length > 30) {
+            prod.values.length = 30;
           }
           
-          updatedProducts.push({
-            sku: prod.sku,
-            name: prod.name,
-            values: updatedValues
-          });
-          
           // Update inventory quantity
+          const inventoryCard = state.inventory.find(inv => inv.sku === prod.sku);
           if (inventoryCard) {
             inventoryCard.quantity = newStock;
           }
-        } else {
-          // SKU not in new warehouse file, keep existing data
-          updatedProducts.push(prod);
         }
       });
       
-      // Update state
-      state.dailySalesData.products = updatedProducts;
-      state.dailySalesData.lastStockUpdate = stockDate;
+      // Update date range
+      if (!state.dailySalesData.dateRange) {
+        state.dailySalesData.dateRange = { start: stockDate, end: stockDate };
+      } else {
+        state.dailySalesData.dateRange.end = stockDate;
+      }
       
       // Recalculate ADS report
-      const report = updatedProducts.map(p => {
+      const report = products.map(p => {
         const ads3 = computeAds(p.values, Math.min(3, p.values.length));
         const ads7 = computeAds(p.values, Math.min(7, p.values.length));
         const ads14 = computeAds(p.values, Math.min(14, p.values.length));
@@ -8751,14 +8742,14 @@ function parseWarehouseExcel(file, stockDate) {
           ads30: ads30.toFixed(1),
           totalDays: p.values.length
         };
-      }).filter(p => !p.name.includes('Restock') && !p.name.includes('— Restock'));
+      }).filter(p => !p.name.includes('Restock'));
       
       report.sort((a, b) => parseFloat(b.ads14) - parseFloat(a.ads14));
       state.adsReport = report;
       
       saveState();
       render();
-      toast(`✅ Updated ${matchedCount} products for ${stockDate} · ${newSalesTotal} total sales`);
+      toast(`✅ Added ${stockDate} · ${matchedCount} products · ${totalSales} total sales`);
       
     } catch (err) {
       console.error('Parse error:', err);
