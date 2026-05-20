@@ -5889,6 +5889,7 @@ function renderSales() {
     { label: 'Import Excel', primary: true, action: "triggerImport('sales')" },
     { label: 'Import Daily Sales Data', primary: false, action: "importDailySalesData()" },
     { label: "Import Today's Stock", primary: false, action: "importTodaysStock()" },
+    { label: 'Export ADS Data', primary: false, action: "exportAdsData()" },
     { label: 'Template · Horizontal', action: "downloadTemplate('sales')" },
     { label: 'Template · Vertical (3PL)', action: "downloadTemplate('salesVertical')" },
     has ? { label: 'Clear All Sales', action: 'clearAllSales()', ghost: true, danger: true } : null,
@@ -8658,58 +8659,47 @@ function parseWarehouseExcel(file, stockDate) {
         if (sku) newStockMap.set(sku, quantity);
       }
       
-      // Check if we have existing daily sales data structure
+      // Check if we have existing data structure
       if (!state.dailySalesData || !state.dailySalesData.products) {
         toast('Please import Daily Sales Data first to establish product structure');
         return;
       }
       
-      // Add new day row to each product's values array
-      // Values array structure: [most_recent, day-1, day-2, ...]
+      // Add date to dates array (most recent first)
+      if (!state.dailySalesData.dates) {
+        state.dailySalesData.dates = [];
+      }
+      state.dailySalesData.dates.unshift(stockDate);
+      
+      // Add stock values to each product
       const products = state.dailySalesData.products;
       let matchedCount = 0;
       let totalSales = 0;
       
       products.forEach(prod => {
+        // Initialize stockValues array if it doesn't exist
+        if (!prod.stockValues) {
+          prod.stockValues = [];
+        }
+        
         const newStock = newStockMap.get(prod.sku);
         
         if (newStock !== undefined) {
           matchedCount++;
           
-          // Calculate sales: previous stock - new stock
-          // Previous stock = most recent day's ending stock
-          // For first time, we reconstruct from inventory cards
-          let previousStock = 0;
-          
-          if (prod.values.length > 0) {
-            // Get the most recent stock by working backwards from most recent sales
-            // Stock = PreviousStock - Sales
-            // So: PreviousStock = Stock + Sales
-            // But we need to reconstruct from the beginning...
-            
-            // Actually, let's just use the inventory card quantity
-            const inventoryCard = state.inventory.find(inv => inv.sku === prod.sku);
-            if (inventoryCard) {
-              previousStock = inventoryCard.quantity || 0;
-            }
-          } else {
-            // No previous data, use inventory cards
-            const inventoryCard = state.inventory.find(inv => inv.sku === prod.sku);
-            if (inventoryCard) {
-              previousStock = inventoryCard.quantity || 0;
-            }
+          // Calculate sales from previous stock (if exists)
+          if (prod.stockValues.length > 0) {
+            const previousStock = prod.stockValues[0]; // Most recent stock
+            const sales = Math.max(0, previousStock - newStock);
+            totalSales += sales;
           }
           
-          // Calculate sales
-          const dailySales = Math.max(0, previousStock - newStock);
-          totalSales += dailySales;
-          
-          // Add to beginning of array (most recent first)
-          prod.values.unshift(dailySales);
+          // Add new stock to beginning (most recent first)
+          prod.stockValues.unshift(newStock);
           
           // Keep only last 30 days
-          if (prod.values.length > 30) {
-            prod.values.length = 30;
+          if (prod.stockValues.length > 30) {
+            prod.stockValues.length = 30;
           }
           
           // Update inventory quantity
@@ -8720,19 +8710,25 @@ function parseWarehouseExcel(file, stockDate) {
         }
       });
       
-      // Update date range
-      if (!state.dailySalesData.dateRange) {
-        state.dailySalesData.dateRange = { start: stockDate, end: stockDate };
-      } else {
-        state.dailySalesData.dateRange.end = stockDate;
+      // Keep only last 30 dates
+      if (state.dailySalesData.dates.length > 30) {
+        state.dailySalesData.dates.length = 30;
       }
       
-      // Recalculate ADS report
+      // Recalculate ADS report from stock values
       const report = products.map(p => {
-        const ads3 = computeAds(p.values, Math.min(3, p.values.length));
-        const ads7 = computeAds(p.values, Math.min(7, p.values.length));
-        const ads14 = computeAds(p.values, Math.min(14, p.values.length));
-        const ads30 = computeAds(p.values, Math.min(30, p.values.length));
+        // Calculate sales from stock differences
+        const salesValues = [];
+        for (let i = 0; i < p.stockValues.length - 1; i++) {
+          const sales = Math.max(0, p.stockValues[i+1] - p.stockValues[i]);
+          salesValues.push(sales);
+        }
+        
+        const ads3 = computeAds(salesValues, Math.min(3, salesValues.length));
+        const ads7 = computeAds(salesValues, Math.min(7, salesValues.length));
+        const ads14 = computeAds(salesValues, Math.min(14, salesValues.length));
+        const ads30 = computeAds(salesValues, Math.min(30, salesValues.length));
+        
         return {
           sku: p.sku,
           name: p.name,
@@ -8740,7 +8736,7 @@ function parseWarehouseExcel(file, stockDate) {
           ads7: ads7.toFixed(1),
           ads14: ads14.toFixed(1),
           ads30: ads30.toFixed(1),
-          totalDays: p.values.length
+          totalDays: salesValues.length
         };
       }).filter(p => !p.name.includes('Restock'));
       
@@ -8757,6 +8753,64 @@ function parseWarehouseExcel(file, stockDate) {
     }
   };
   reader.readAsArrayBuffer(file);
+}
+
+/* ---------- Export ADS Data ---------- */
+function exportAdsData() {
+  if (!state.dailySalesData || !state.dailySalesData.products || !state.dailySalesData.dates) {
+    toast('No ADS data to export');
+    return;
+  }
+  
+  const dates = state.dailySalesData.dates;
+  const products = state.dailySalesData.products;
+  
+  // Create Excel structure matching input format
+  const wb = XLSX.utils.book_new();
+  
+  // Build rows
+  const rows = [];
+  
+  // Row 0: Product names
+  const headerRow = ['Date'];
+  products.forEach(p => {
+    headerRow.push(p.name);
+  });
+  rows.push(headerRow);
+  
+  // Row 1: SKUs
+  const skuRow = [''];
+  products.forEach(p => {
+    skuRow.push(p.sku);
+  });
+  rows.push(skuRow);
+  
+  // Data rows: dates and stock values
+  dates.forEach((date, dateIdx) => {
+    const dataRow = [date];
+    products.forEach(p => {
+      const stock = p.stockValues && p.stockValues[dateIdx] !== undefined 
+        ? p.stockValues[dateIdx] 
+        : '';
+      dataRow.push(stock);
+    });
+    rows.push(dataRow);
+  });
+  
+  // Create worksheet
+  const ws = XLSX.utils.aoa_to_sheet(rows);
+  XLSX.utils.book_append_sheet(wb, ws, 'ADS Data');
+  
+  // Generate filename with today's date
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const mm = String(today.getMonth() + 1).padStart(2, '0');
+  const dd = String(today.getDate()).padStart(2, '0');
+  const filename = `ADS_Export_${yyyy}${mm}${dd}.xlsx`;
+  
+  // Download
+  XLSX.writeFile(wb, filename);
+  toast(`✅ Exported ${products.length} products × ${dates.length} days`);
 }
 
 /* ---------- Wire-up ---------- */
